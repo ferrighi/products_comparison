@@ -9,13 +9,10 @@ function select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array)
   $output = '';
   $output .= "<form action=\"".$scr_name."\" method=\"get\">\n";
   $output .= "<legend>Select a tile and the date from the available lists. Move the slider to compare the products</legend>\n";
-  $output .= "<table>";
+  $output .= "<table style=\"width:80%; margin-right:auto; margin-left:auto\">";
   $output .= "<tr>";
   $output .= "<th style=\"text-align: center; color: #222222\">";
   $output .= "Tile";
-  $output .= "</th>";
-  $output .= "<th style=\"text-align: center; color: #222222\">";
-  $output .= "Product";
   $output .= "</th>";
   $output .= "<th style=\"text-align: center; color: #222222\">";
   $output .= "Date - Time";
@@ -25,7 +22,7 @@ function select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array)
   $output .= "<tr>";
   #set up the tile selection
   $output .= "<th rowspan=\"2\">";
-  $output .= "<select class=\"drop-selection\" onchange=\"this.form.date1.value='None'; this.form.date2.value='None'; this.form.submit()\" name=\"tile\">\n";
+  $output .= "Select a Tile: <select class=\"drop-selection\" onchange=\"this.form.date1.value='None'; this.form.date2.value='None'; this.form.submit()\" name=\"tile\">\n";
   //$output .= "<select class=\"drop-selection\" onchange=\"this.form.submit()\" name=\"tile\">\n";
   for ($p=0;$p<count($tiles_array);$p++) {
     if ($tiles_array[$p] !== $tile) {
@@ -39,14 +36,10 @@ function select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array)
   $output .= "</select>\n";
   $output .= "</th>";
 
-  $output .= "<th style=\"text-align: center; color: #222222\">";
-  $output .= "First";
-  $output .= "</th>";
-  
 
   #set up the year selection
   $output .= "<th>";
-  $output .= "<select class=\"drop-selection\" onchange=\"this.form.submit()\" name=\"date1\">\n";
+  $output .= "First Product: <span style=\"display:inline-block; width: 1.5em;\"></span><select class=\"drop-selection\" onchange=\"this.form.submit()\" name=\"date1\">\n";
   for ($y=0;$y<count($dates);$y++) {
     if ($dates[$y][1] !== $date1) {
       $output .= "<option value=".$dates[$y][1].">".$dates[$y][0][0]. '/' .$dates[$y][0][1].'/' .$dates[$y][0][2]. " - ".$dates[$y][0][3]. "</option>\n";
@@ -62,13 +55,9 @@ function select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array)
 
   $output .= "<tr>";
 
-  $output .= "<th style=\"text-align: center; color: #222222\">";
-  $output .= "Second";
-  $output .= "</th>";
-
   #set up the year selection
   $output .= "<th>";
-  $output .= "<select class=\"drop-selection\" onchange=\"this.form.submit()\" name=\"date2\">\n";
+  $output .= "Second Product: <select class=\"drop-selection\" onchange=\"this.form.submit()\" name=\"date2\">\n";
   for ($y=0;$y<count($dates);$y++) {
     if ($dates[$y][1] !== $date2) {
       $output .= "<option value=".$dates[$y][1].">".$dates[$y][0][0]. '/' .$dates[$y][0][1].'/' .$dates[$y][0][2]." - ".$dates[$y][0][3]. "</option>\n";
