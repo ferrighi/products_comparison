@@ -1,0 +1,171 @@
+<?php
+require_once 'includes/global_variables.inc';
+require_once 'includes/global_functions.inc';
+require_once 'includes/select_options.inc';
+
+function products_comparison_init(){
+  $mpath = drupal_get_path('module', 'products_comparison');
+  drupal_add_js($mpath . '/js/olmap_slider.js');
+}
+
+
+function products_comparison_block_info() {
+  $blocks = array();
+  $blocks['products_comparison_block'] = array(
+    'info' => t('Comparison Module'),
+  );
+  return $blocks;
+}
+
+function products_comparison_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'products_comparison_block':
+     $block['content'] = products_comparison_main_content(); // set the content of the block to our products_comparison_main_content
+     break;
+  }
+  return $block;
+}
+
+
+function products_comparison_main_content(){
+  global $platforms, $firstyears_array, $tiles_array, $fname_postf, $fname_sensor;                                                             
+  global $datadir;
+  global $defyear;
+  global $base_url;
+//
+  $scr_name = $base_url ."/comparison";
+//
+//  # Initialize and find defaults depending on products 
+
+  if(isset($_GET["tile"])){
+     $tile = $_GET["tile"];
+  }else{
+     $tile = $tiles_array[0];
+  }
+
+  if(isset($_GET["date1"])){
+     $date1 = $_GET["date1"];
+  }else{
+     //$date = $defyear."/".$defmonth."/".$defday;
+     $date1 = "None";
+  }
+
+  if(isset($_GET["date2"])){
+     $date2 = $_GET["date2"];
+  }else{
+     //$date = $defyear."/".$defmonth."/".$defday;
+     $date2 = "None";
+  }
+
+  if(isset($_GET["action"])){
+     $action = $_GET["action"];
+  }else{
+     $action = "";
+  }
+
+  $dates = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None"));
+  $query3_res = [];
+  if ($tile !== "None"){
+     //extract dates
+     $fields = "id,";
+     $query_prd = 'full_text:S2*_MSIL1C_20*'.$tile.'*';
+     $con3 = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
+     $res3 = $con3->get('/solr/nbs-l1/select', array("q" =>$query_prd, "start" => 0, "rows" => 100000, "wt" => "json", "fl" => $fields,));
+     $query3_res = json_decode($res3['body'], true);
+     $count = 1; 
+     foreach ($query3_res['response']['docs'] as $doc) {
+        $time_string = explode('_',$doc['id'],7)[6];
+        $id = $doc['id'];
+        $ayear = substr($time_string, 0, 4);
+        $amonth = substr($time_string, 4, 2); 
+        $aday = substr($time_string, 6, 2);
+        $atime = substr($time_string, 8, 7);
+        $date = array($ayear,$amonth, $aday, $atime);
+        //$dates[$count] = $date;
+        //$dates[$count] = array($ayear."/".$amonth."/".$aday, $atime, $id, $platform);
+        $dates[$count] = array($date, $id);
+        $count = $count + 1; 
+     }
+  }
+
+  #call the function creating the selection options
+  $out = select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array);
+  
+  $build_path1 = "null";
+  $build_path2 = "null";
+  if ($date1 !== 'None'){ 
+     $time_string1 = explode('_',$date1,7)[6];
+     $platform1 = substr($date1, 0, 3);
+     $ayear1 = substr($time_string1, 0, 4);
+     $amonth1 = substr($time_string1, 4, 2); 
+     $aday1 = substr($time_string1, 6, 2);
+     $build_path1 = '"'.$datadir."/".$platform1."/".$ayear1."/".$amonth1."/".$aday1."/".$date1.".nc?".'"';
+  }
+  if ($date2 !== 'None'){ 
+     $time_string2 = explode('_',$date2,7)[6];
+     $platform2 = substr($date2, 0, 3);
+     $ayear2 = substr($time_string2, 0, 4);
+     $amonth2 = substr($time_string2, 4, 2); 
+     $aday2 = substr($time_string2, 6, 2);
+     $build_path2 = '"'.$datadir."/".$platform2."/".$ayear2."/".$amonth2."/".$aday2."/".$date2.".nc?".'"';
+  }
+
+
+return $out . '
+
+<!doctype html>                                                                                                                                                                                                         
+<html lang="en">                                                                                                                                                                                                        
+  <head>                                                                                                                                          
+    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/openlayers3/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/openlayers3/apidoc/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.css">
+    <script src="/sites/satellittdata.metsis.met.no/libraries/openlayers3/build/ol.js" type="text/javascript"></script>
+    <script src="/sites/all/modules/jquery_update/replace/jquery/1.10/jquery.min.js"></script>
+    <script src="/sites/satellittdata.metsis.met.no/libraries/openlayers3/apidoc/scripts/bootstrap.min.js"></script>
+    <script src="/sites/satellittdata.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.2.1/proj4.js"></script>
+    <script type="text/javascript">
+      prod_id1 = '.$build_path1.';
+      prod_id2 = '.$build_path2.';
+    </script>
+<style>
+      .map {
+        height: 500px;
+        width: 100%;
+        margin: auto;
+      }
+
+.drop-selection {
+   height: 30px !important;
+   margin-right: auto;
+   margin-left: auto;
+}
+
+.table, th, td, tr {
+   border: 1px solid #c8c7c7;
+}
+
+#swipe::-moz-range-thumb {
+    align: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; 
+    background: #81b6da;
+    border-color: #000;
+    border-width: 1px;
+    cursor: pointer;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="map" class="map" >
+    <input id="swipe" type="range" style="width: 100%; margin-bottom:10px">
+    <script type="text/javascript" src="/sites/satellittdata.metsis.met.no/modules/products_comparison/js/olmap_slider.js"></script>
+  </body>
+</html>
+';
+
+}
+?>
