@@ -30,7 +30,7 @@ function products_comparison_block_view($delta='') {
 
 function products_comparison_main_content(){
   global $platforms, $firstyears_array, $tiles_array, $fname_postf, $fname_sensor;                                                             
-  global $datadir;
+  global $datadir, $datadir2;
   global $defyear;
   global $base_url;
 //
@@ -69,13 +69,17 @@ function products_comparison_main_content(){
   if ($tile !== "None"){
      //extract dates
      $fields = "id,";
-     $query_prd = 'full_text:S2*_MSIL1C_20*'.$tile.'*';
+     $query_prd = 'full_text:S2*_MSI*L1C*'.$tile.'*';
      $con3 = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
      $res3 = $con3->get('/solr/nbs-l1/select', array("q" =>$query_prd, "start" => 0, "rows" => 100000, "wt" => "json", "fl" => $fields,));
      $query3_res = json_decode($res3['body'], true);
      $count = 1; 
      foreach ($query3_res['response']['docs'] as $doc) {
-        $time_string = explode('_',$doc['id'],7)[6];
+        if (preg_match("/OPER/", $doc['id'])){
+           $time_string = explode('_',$doc['id'],12)[7];
+        }else{
+           $time_string = explode('_',$doc['id'],7)[6];
+        }
         $id = $doc['id'];
         $ayear = substr($time_string, 0, 4);
         $amonth = substr($time_string, 4, 2); 
@@ -87,6 +91,7 @@ function products_comparison_main_content(){
         $dates[$count] = array($date, $id);
         $count = $count + 1; 
      }
+     sort($dates);
   }
 
   #call the function creating the selection options
@@ -94,21 +99,43 @@ function products_comparison_main_content(){
   
   $build_path1 = "null";
   $build_path2 = "null";
+  $png_to_jpeg = '2018/03/23';
+  $ptj_str = strtotime($png_to_jpeg);
   if ($date1 !== 'None'){ 
-     $time_string1 = explode('_',$date1,7)[6];
+     if (preg_match("/OPER/", $date1)){
+        $time_string1 = explode('_',$date1,12)[7];
+     }else{
+        $time_string1 = explode('_',$date1,7)[6];
+     }
      $platform1 = substr($date1, 0, 3);
      $ayear1 = substr($time_string1, 0, 4);
      $amonth1 = substr($time_string1, 4, 2); 
      $aday1 = substr($time_string1, 6, 2);
-     $build_path1 = '"'.$datadir."/".$platform1."/".$ayear1."/".$amonth1."/".$aday1."/".$date1.".nc?".'"';
+     $d1 = $ayear1.'/'.$amonth1.'/'.$aday1;
+     $d1_str = strtotime($d1);
+     if($d1_str<$ptj_str){
+        $build_path1 = '"'.$datadir2."/".$platform1."/".$ayear1."/".$amonth1."/".$aday1."/".$date1.".nc?".'"';
+     } else {
+        $build_path1 = '"'.$datadir."/".$platform1."/".$ayear1."/".$amonth1."/".$aday1."/".$date1.".nc?".'"';
+     }
   }
   if ($date2 !== 'None'){ 
-     $time_string2 = explode('_',$date2,7)[6];
+     if (preg_match("/OPER/", $date2)){
+        $time_string2 = explode('_',$date2,12)[7];
+     }else{
+        $time_string2 = explode('_',$date2,7)[6];
+     }
      $platform2 = substr($date2, 0, 3);
      $ayear2 = substr($time_string2, 0, 4);
      $amonth2 = substr($time_string2, 4, 2); 
      $aday2 = substr($time_string2, 6, 2);
-     $build_path2 = '"'.$datadir."/".$platform2."/".$ayear2."/".$amonth2."/".$aday2."/".$date2.".nc?".'"';
+     $d2 = $ayear2.'/'.$amonth2.'/'.$aday2;
+     $d2_str = strtotime($d2);
+     if($d2_str<$ptj_str){
+        $build_path2 = '"'.$datadir2."/".$platform2."/".$ayear2."/".$amonth2."/".$aday2."/".$date2.".nc?".'"';
+     } else {
+        $build_path2 = '"'.$datadir."/".$platform2."/".$ayear2."/".$amonth2."/".$aday2."/".$date2.".nc?".'"';
+     }
   }
 
 
@@ -117,26 +144,28 @@ return $out . '
 <!doctype html>                                                                                                                                                                                                         
 <html lang="en">                                                                                                                                                                                                        
   <head>                                                                                                                                          
-    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/openlayers3/css/ol.css" type="text/css">
-    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/openlayers3/apidoc/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.css">
-    <script src="/sites/satellittdata.metsis.met.no/libraries/openlayers3/build/ol.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/sites/staging-nbs.metsis.met.no/libraries/openlayers3/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="/sites/staging-nbs.metsis.met.no/libraries/openlayers3/apidoc/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/sites/staging-nbs.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.css">
+    <script src="/sites/staging-nbs.metsis.met.no/libraries/openlayers3/build/ol.js" type="text/javascript"></script>
     <script src="/sites/all/modules/jquery_update/replace/jquery/1.10/jquery.min.js"></script>
-    <script src="/sites/satellittdata.metsis.met.no/libraries/openlayers3/apidoc/scripts/bootstrap.min.js"></script>
-    <script src="/sites/satellittdata.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.js"></script>
+    <script src="/sites/staging-nbs.metsis.met.no/libraries/openlayers3/apidoc/scripts/bootstrap.min.js"></script>
+    <script src="/sites/staging-nbs.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.2.1/proj4.js"></script>
     <script type="text/javascript">
       prod_id1 = '.$build_path1.';
       prod_id2 = '.$build_path2.';
     </script>
 <style>
-      .map {
-        height: 500px;
-        width: 100%;
-        margin: auto;
-      }
+.map {
+/*  height: 500px;*/
+   width: 100%;
+   margin: auto;
+   border: 1px solid #c8c7c7;
+}
 
 .drop-selection {
+   display: inline !important;
    height: 30px !important;
    margin-right: auto;
    margin-left: auto;
@@ -148,8 +177,8 @@ return $out . '
 
 #swipe::-moz-range-thumb {
     align: center;
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%; 
     background: #81b6da;
     border-color: #000;
@@ -161,8 +190,8 @@ return $out . '
   </head>
   <body>
     <div id="map" class="map" >
-    <input id="swipe" type="range" style="width: 100%; margin-bottom:10px">
-    <script type="text/javascript" src="/sites/satellittdata.metsis.met.no/modules/products_comparison/js/olmap_slider.js"></script>
+    <input id="swipe" type="range" style="width: 100%; margin:0px; margin-bottom:0.5em; margin-top:0.5em; border-radius: 0px">
+    <script type="text/javascript" src="/sites/staging-nbs.metsis.met.no/modules/products_comparison/js/olmap_slider.js"></script>
   </body>
 </html>
 ';

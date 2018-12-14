@@ -62,9 +62,9 @@ var map = new ol.Map({
                  extent: ext
    })
 });
-var layerSwitcher = new ol.control.LayerSwitcher({});
-map.addControl(layerSwitcher);
-layerSwitcher.showPanel();
+//var layerSwitcher = new ol.control.LayerSwitcher({});
+//map.addControl(layerSwitcher);
+//layerSwitcher.showPanel();
 
 var swipe = document.getElementById('swipe');
 

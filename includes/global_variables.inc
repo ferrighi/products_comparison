@@ -1,10 +1,11 @@
 <?php
 
 global $platforms, $firstyears_array, $fname_postf, $fname_sensor, $tiles_array; 
-global $datadir;
+global $datadir, $datadir2;
 
 # define source of files and pages where to show the block
 $datadir  = "http://nbswms.met.no/thredds/wms_jpeg/NBS";
+$datadir2  = "http://nbswms.met.no/thredds/wms/NBS";
 
 #define products
 $platforms = array("S2A", "S2B");
