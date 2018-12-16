@@ -4,6 +4,5 @@ core = 7.x
 
 scripts[] = js/olmap_slider.js
 files[] = includes/global_variables.inc
-files[] = includes/global_functions.inc
 files[] = includes/select_options.inc
 files[] = css/style_selection.css

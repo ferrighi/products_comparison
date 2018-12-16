@@ -8,8 +8,6 @@ ol.proj.addProjection(proj32661);
 var ext = ex32661;
 var prj = proj32661;
 
-var tromsoLonLat = [10, 68];
-var tromsoTrans = ol.proj.transform(tromsoLonLat, "EPSG:4326",  prj);
 
 var layer = {};
 
@@ -46,6 +44,9 @@ layer['l2']  = new ol.layer.Tile({
    })
 });
 
+var centerLonLat = [lon, lat];
+var centerTrans = ol.proj.transform(centerLonLat, "EPSG:4326",  prj);
+
 // build up the map
 var map = new ol.Map({
    target: 'map',
@@ -55,17 +56,16 @@ var map = new ol.Map({
              layer['border']
            ],
    view: new ol.View({
-                 zoom: 3, 
+                 zoom: 6, 
                  minZoom: 3,
-                 center: tromsoTrans,
-                 //center: fromLonLat(),
+                 center: centerTrans,
                  projection: prj,
                  extent: ext
    })
 });
 var layerSwitcher = new ol.control.LayerSwitcher({});
 map.addControl(layerSwitcher);
-layerSwitcher.showPanel();
+//layerSwitcher.showPanel();
 
 var swipe = document.getElementById('swipe');
 

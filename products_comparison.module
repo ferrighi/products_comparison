@@ -1,6 +1,5 @@
 <?php
 require_once 'includes/global_variables.inc';
-require_once 'includes/global_functions.inc';
 require_once 'includes/select_options.inc';
 
 function products_comparison_init(){
@@ -62,11 +61,11 @@ function products_comparison_main_content(){
      $action = "";
   }
 
-  $prinfo = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None","None"));
+  $prinfo = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None","None", array(68, 10)));
   $query_res = [];
   if ($tile !== "None"){
      //extract prinfo
-     $fields = "id, mmd_data_access_resource";
+     $fields = "id, mmd_data_access_resource, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_east";
      $query_prd = 'full_text:S2*'.$tile.'*';
      $con = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
      $res = $con->get('/solr/'.SOLR_CORE_PARENT.'/select', array("q" =>$query_prd, "start" => 0, "rows" => 100000, "wt" => "json", "fl" => $fields,));
@@ -81,12 +80,15 @@ function products_comparison_main_content(){
         $id = $doc['id'];
         $address = $doc['mmd_data_access_resource'][1];
         $address = json_decode("{".$address."}",true)['OGC WMS'];
+        $north = $doc['mmd_geographic_extent_rectangle_north'];
+        $east = $doc['mmd_geographic_extent_rectangle_east'];
         $ayear = substr($time_string, 0, 4);
         $amonth = substr($time_string, 4, 2); 
         $aday = substr($time_string, 6, 2);
         $atime = substr($time_string, 8, 7);
         $date = array($ayear,$amonth, $aday, $atime);
-        $prinfo[$count] = array($date, $id ,$address);
+        $latlon = array($north, $east);
+        $prinfo[$count] = array($date, $id, $address, $latlon);
         $count = $count + 1; 
      }
      sort($prinfo);
@@ -98,6 +100,8 @@ function products_comparison_main_content(){
   $out = $selection_out[0];  
   $address1 = $selection_out[1];  
   $address2 = $selection_out[2];  
+  $latlon1 = $selection_out[3];  
+  $latlon2 = $selection_out[4];  
 
   $build_path1 = "null";
   $build_path2 = "null";
@@ -107,6 +111,7 @@ function products_comparison_main_content(){
   if ($pr2 !== 'None'){ 
      $build_path2 = '"'.$address2.'"'; 
   }
+  drupal_set_message(print_r($latlon1[0],TRUE), 'warning');
 
   $id_j1 = '"'.$pr1.'"';
   $id_j2 = '"'.$pr2.'"';
@@ -129,6 +134,8 @@ return $out . '
       prod_id2 = '.$build_path2.';
       id1 = '.$id_j1.';
       id2 = '.$id_j2.';
+      lat = '.$latlon1[0].';
+      lon = '.$latlon1[1].';
     </script>
 <style>
       .map {

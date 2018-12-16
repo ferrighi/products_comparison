@@ -46,6 +46,7 @@ function select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$action,$tiles_array) {
     else {
       $output .= "<option value=".$prinfo[$y][1]." selected=\"selected\">".$prinfo[$y][0][0]. '/' .$prinfo[$y][0][1].'/' .$prinfo[$y][0][2]." - ".$prinfo[$y][0][3]. "</option>\n";
       $address1 = $prinfo[$y][2];
+      $latlon1 = array($prinfo[$y][3][0],$prinfo[$y][3][1]);
     }
   }
   $output .= "</select>\n";
@@ -65,6 +66,7 @@ function select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$action,$tiles_array) {
     else {
       $output .= "<option value=".$prinfo[$y][1]." selected=\"selected\">".$prinfo[$y][0][0]. '/' .$prinfo[$y][0][1].'/' .$prinfo[$y][0][2]." - ".$prinfo[$y][0][3]. "</option>\n";
       $address2 = $prinfo[$y][2];
+      $latlon2 = array($prinfo[$y][3][0],$prinfo[$y][3][1]);
     }
   }
   $output .= "</select>\n";
@@ -83,5 +85,5 @@ function select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$action,$tiles_array) {
   $output .= "</table>";
   $output .= "</form>\n";
 
-  return [$output,$address1,$address2];
+  return [$output,$address1,$address2,$latlon1,$latlon2];
 }
