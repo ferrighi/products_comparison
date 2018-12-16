@@ -8,7 +8,7 @@ function select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array)
   global $firstyears_array, $defyear;
   $output = '';
   $output .= "<form action=\"".$scr_name."\" method=\"get\">\n";
-  $output .= "<legend>Select a tile and the date from the available lists. Move the slider to compare the products</legend>\n";
+  //$output .= "<legend>Select a tile and two dates from the available lists. Move the slider to compare the products</legend>\n";
   $output .= "<table style=\"width:80%; margin-right:auto; margin-left:auto\">";
   $output .= "<tr>";
   $output .= "<th style=\"text-align: center; color: #222222\">";
@@ -71,6 +71,14 @@ function select_image($scr_name,$date1,$date2,$dates,$tile,$action,$tiles_array)
 
   $output .= "</tr>";
 
+  if ($date1 !== 'None' && $date2 !== 'None'){
+    $output .= "<tr>";
+    $output .= "<td style=\"text-align: center; font-size:15px\" colspan=\"2\">";
+    $output .= "<strong>You are comparing Sentinel-2 products:</strong><br>";
+    $output .= $date1."<br>".$date2;
+    $output .= "</td>";
+    $output .= "</tr>";
+  }
   $output .= "</table>";
   $output .= "</form>\n";
 
