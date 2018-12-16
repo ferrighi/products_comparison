@@ -7,6 +7,7 @@ global $datadir, $datadir2;
 $datadir  = "http://nbswms.met.no/thredds/wms_jpeg/NBS";
 $datadir2  = "http://nbswms.met.no/thredds/wms/NBS";
 
+
 #define products
 $platforms = array("S2A", "S2B");
 

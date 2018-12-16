@@ -32,7 +32,7 @@ layer['border']  = new ol.layer.Tile({
 
 layer['l1']  = new ol.layer.Tile({
        title: id1,
-   source: new ol.source.TileWMS({ 
+       source: new ol.source.TileWMS({ 
        url: prod_id1,
        params: {'LAYERS': 'true_color_vegetation', 'TRANSPARENT':'true', 'FORMAT':'image/png', 'CRS':'EPSG:32661', 'VERSION':'1.3.0', 'SERVICE':'WMS','REQUEST':'GetMap','TILE':'true','WIDTH':'256','HEIGHT':'256'}
    })
@@ -40,7 +40,7 @@ layer['l1']  = new ol.layer.Tile({
 
 layer['l2']  = new ol.layer.Tile({
        title: id2,
-   source: new ol.source.TileWMS({ 
+       source: new ol.source.TileWMS({ 
        url: prod_id2,
        params: {'LAYERS': 'true_color_vegetation', 'TRANSPARENT':'true', 'FORMAT':'image/png', 'CRS':'EPSG:32661', 'VERSION':'1.3.0', 'SERVICE':'WMS','REQUEST':'GetMap','TILE':'true','WIDTH':'256','HEIGHT':'256'}
    })
@@ -50,25 +50,26 @@ layer['l2']  = new ol.layer.Tile({
 var map = new ol.Map({
    target: 'map',
    layers: [ layer['base'], 
-             layer['l2'],
              layer['l1'],
+             layer['l2'],
              layer['border']
            ],
    view: new ol.View({
                  zoom: 3, 
                  minZoom: 3,
                  center: tromsoTrans,
+                 //center: fromLonLat(),
                  projection: prj,
                  extent: ext
    })
 });
 var layerSwitcher = new ol.control.LayerSwitcher({});
 map.addControl(layerSwitcher);
-//layerSwitcher.showPanel();
+layerSwitcher.showPanel();
 
 var swipe = document.getElementById('swipe');
 
-layer['l1'].on('precompose', function(event) {
+layer['l2'].on('precompose', function(event) {
         var ctx = event.context;
         //var width = ctx.canvas.width * (swipe.value / 100);
         var width = ctx.canvas.width * (swipe.value / 100);
@@ -79,7 +80,7 @@ layer['l1'].on('precompose', function(event) {
         ctx.clip();
       });
 
-      layer['l1'].on('postcompose', function(event) {
+      layer['l2'].on('postcompose', function(event) {
         var ctx = event.context;
         ctx.restore();
       });
