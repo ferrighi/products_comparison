@@ -56,7 +56,7 @@ var map = new ol.Map({
              layer['border']
            ],
    view: new ol.View({
-                 zoom: 6, 
+                 zoom: zoomv, 
                  minZoom: 3,
                  center: centerTrans,
                  projection: prj,
@@ -71,7 +71,6 @@ var swipe = document.getElementById('swipe');
 
 layer['l2'].on('precompose', function(event) {
         var ctx = event.context;
-        //var width = ctx.canvas.width * (swipe.value / 100);
         var width = ctx.canvas.width * (swipe.value / 100);
 
         ctx.save();

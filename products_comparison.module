@@ -4,7 +4,7 @@ require_once 'includes/select_options.inc';
 
 function products_comparison_init(){
   $mpath = drupal_get_path('module', 'products_comparison');
-  drupal_add_js($mpath . '/js/olmap_slider.js');
+  drupal_add_js($mpath . '/js/comparison_slider.js');
 }
 
 
@@ -65,7 +65,7 @@ function products_comparison_main_content(){
   $query_res = [];
   if ($tile !== "None"){
      //extract prinfo
-     $fields = "id, mmd_data_access_resource, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_east";
+     $fields = "id, mmd_data_access_resource, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_south, mmd_geographic_extent_rectangle_east, mmd_geographic_extent_rectangle_west";
      $query_prd = 'full_text:S2*'.$tile.'*';
      $con = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
      $res = $con->get('/solr/'.SOLR_CORE_PARENT.'/select', array("q" =>$query_prd, "start" => 0, "rows" => 100000, "wt" => "json", "fl" => $fields,));
@@ -81,13 +81,15 @@ function products_comparison_main_content(){
         $address = $doc['mmd_data_access_resource'][1];
         $address = json_decode("{".$address."}",true)['OGC WMS'];
         $north = $doc['mmd_geographic_extent_rectangle_north'];
+        $south = $doc['mmd_geographic_extent_rectangle_south'];
         $east = $doc['mmd_geographic_extent_rectangle_east'];
+        $west = $doc['mmd_geographic_extent_rectangle_west'];
         $ayear = substr($time_string, 0, 4);
         $amonth = substr($time_string, 4, 2); 
         $aday = substr($time_string, 6, 2);
         $atime = substr($time_string, 8, 7);
         $date = array($ayear,$amonth, $aday, $atime);
-        $latlon = array($north, $east);
+        $latlon = array(($south+$north)/2, ($east+$west)/2);
         $prinfo[$count] = array($date, $id, $address, $latlon);
         $count = $count + 1; 
      }
@@ -105,13 +107,17 @@ function products_comparison_main_content(){
 
   $build_path1 = "null";
   $build_path2 = "null";
+  $zoom = 2;
+  $ll = $latlon1;
   if ($pr1 !== 'None'){ 
      $build_path1 = '"'.$address1.'"'; 
+     $zoom = 6;
   }
   if ($pr2 !== 'None'){ 
      $build_path2 = '"'.$address2.'"'; 
+     $zoom = 6;
+     $ll = $latlon2;
   }
-  drupal_set_message(print_r($latlon1[0],TRUE), 'warning');
 
   $id_j1 = '"'.$pr1.'"';
   $id_j2 = '"'.$pr2.'"';
@@ -134,8 +140,9 @@ return $out . '
       prod_id2 = '.$build_path2.';
       id1 = '.$id_j1.';
       id2 = '.$id_j2.';
-      lat = '.$latlon1[0].';
-      lon = '.$latlon1[1].';
+      lat = '.$ll[0].';
+      lon = '.$ll[1].';
+      zoomv = '.$zoom.';
     </script>
 <style>
       .map {
@@ -173,7 +180,7 @@ return $out . '
   <body>
     <div id="map" class="map" >
     <input id="swipe" type="range" style="width: 100%; margin-bottom:10px; margin: 0px">
-    <script type="text/javascript" src="/sites/satellittdata.metsis.met.no/modules/products_comparison/js/olmap_slider.js"></script>
+    <script type="text/javascript" src="/sites/satellittdata.metsis.met.no/modules/products_comparison/js/comparison_slider.js"></script>
   </body>
 </html>
 ';
