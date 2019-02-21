@@ -33,7 +33,6 @@ function products_comparison_main_content(){
   global $defyear;
   global $base_url;
   global $metsis_conf;
-  global $site_name;
   
   $site_name = variable_get('site_name', 'Default');
 //
@@ -191,7 +190,6 @@ return $out . '
       lat = '.$ll[0].';
       lon = '.$ll[1].';
       site_name = '.$sn_j.';
-      console.log(site_name);
 //       location.hash = "pr1=";
 //       location.hash +=  id1;
 //       location.hash += "#pr2=";
@@ -275,7 +273,7 @@ return $out . '
   <body>
     <div id="map" class="map" >
     <input id="swipe" type="range" style="width: 100%; margin-bottom:10px; margin: 0px">
-    <script type="text/javascript" src="/sites/satellittdata.metsis.met.no/modules/products_comparison/js/comparison_slider.js"></script>
+    <script type="text/javascript" src="/sites/'.$site_name.'/modules/products_comparison/js/comparison_slider.js"></script>
   </body>
 </html>
 ';
