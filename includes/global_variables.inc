@@ -18,41 +18,11 @@ $fname_postf = ".nc";
 
 $layers_array = array("true_color_vegetation",
                       "false_color_vegetation", 
-                      "false_color_glacier", 
-                      "opaque_clouds", 
-                      "cirrus_clouds", 
-                      "B1",
-                      "B2",
-                      "B3",
-                      "B4",
-                      "B5",
-                      "B6",
-                      "B7",
-                      "B8",
-                      "B8A",
-                      "B9",
-                      "B10",
-                      "B11",
-                      "B12"
+                      "false_color_glacier" 
 		      );
 $layersN_array = array("True Color Vegetation",
                        "False Color Vegetation", 
-                       "False Color Glacier",
-                       "Opaque Clouds Mask 10m res", 
-                       "Cirrus Clouds Mask 10m res", 
-                       "B1",
-                       "B2",
-                       "B3",
-                       "B4",
-                       "B5",
-                       "B6",
-                       "B7",
-                       "B8",
-                       "B8A",
-                       "B9",
-                       "B10",
-                       "B11",
-                       "B12"
+                       "False Color Glacier"
 		      );
 
 
