@@ -84,8 +84,8 @@ var map = new ol.Map({
    layers: [ layer['base'], 
              layer['kml_tiles'],
              layer['l1'],
-             layer['l2'],
-             layer['border']
+             layer['l2']
+             //layer['border']
            ],
    view: new ol.View({
                  zoom: zoomv, 
