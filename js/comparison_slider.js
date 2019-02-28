@@ -8,15 +8,8 @@ ol.proj.addProjection(proj32661);
 var ext = ex32661;
 var prj = proj32661;
 
-//consider the url hash
-//console.log(location.hash.split("#pr1=")[1]); 
-//console.log(tl.slice(1,6));
 
-//window.onhashchange = function(){
-//    var value = (location.hash).split("pr1=")[1]; 
-//    $('#id1').val( value );
-//};
-
+// Define stiles for tiles: red is selected, blue is for mouse moving
 var styleRed = new ol.style.Style({
         stroke: new ol.style.Stroke({
           color: '#f00',
@@ -39,10 +32,11 @@ var layer = {};
 // Base layer WMS
 layer['base']  = new ol.layer.Tile({
    type: 'base',
-   source: new ol.source.TileWMS({ 
-       url: 'http://public-wms.met.no/backgroundmaps/northpole.map',
-       params: {'LAYERS': 'world', 'TRANSPARENT':'false', 'VERSION':'1.1.1','FORMAT':'image/png', 'SRS':prj}
-   })
+   source: new ol.source.OSM()
+//   source: new ol.source.TileWMS({ 
+//       url: 'http://public-wms.met.no/backgroundmaps/northpole.map',
+//       params: {'LAYERS': 'world', 'TRANSPARENT':'false', 'VERSION':'1.1.1','FORMAT':'image/png', 'SRS':prj}
+//   })
 });
 
 // Border layer WMS
@@ -101,6 +95,7 @@ var map = new ol.Map({
                  extent: ext
    })
 });
+//Layer switcher
 var layerSwitcher = new ol.control.LayerSwitcher({});
 map.addControl(layerSwitcher);
 
@@ -109,7 +104,7 @@ var mousePositionControl = new ol.control.MousePosition({
    coordinateFormat : function(co) {
       return ol.coordinate.format(co, template = 'lon: {x}, lat: {y}', 2);
    },
-   projection : 'EPSG:4326', //Map hat 3857
+   projection : 'EPSG:4326', 
 });
 map.addControl(mousePositionControl);
 
@@ -128,8 +123,6 @@ map.on('pointermove', function(evt) {
   });
 });
 
-console.log(prod_id1);
-console.log(id1);
 
 var listenerKey = {};
 function listenerAllLayers() {
@@ -147,7 +140,7 @@ function listenerAllLayers() {
   }
 }
 
-// build elements of listenerKey for each layer
+// build elements of listenerKey for kml layer
 listenerKey["kml_tiles"] = layer["kml_tiles"].getSource().on('change', listenerAllLayers);
 
 
