@@ -110,6 +110,9 @@ function products_comparison_main_content(){
         $count = $count + 1; 
      }
      rsort($prinfo);
+     $first = array_pop($prinfo);
+     array_unshift($prinfo,$first);
+
   }
 
 //   #if the tile is selected place the last and second last products on the map
