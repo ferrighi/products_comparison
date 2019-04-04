@@ -8,6 +8,7 @@ ol.proj.addProjection(proj32661);
 var ext = ex32661;
 var prj = proj32661;
 
+var mpath = Drupal.settings.mpath;
 
 // Define stiles for tiles: red is selected, blue is for mouse moving
 var styleRed = new ol.style.Style({
@@ -51,7 +52,7 @@ layer['border']  = new ol.layer.Tile({
 layer['kml_tiles'] = new ol.layer.Vector({
    title: 'tiles',
    source: new ol.source.Vector({
-       url: '/sites/'+site_name+'/files/stripped_tiles_np.kml',
+       url: mpath+'/includes/stripped_tiles_np.kml',
        format: new ol.format.KML({extractStyles: false, extractAttributes: true}),
    })
 })

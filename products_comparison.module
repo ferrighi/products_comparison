@@ -5,6 +5,7 @@ require_once 'includes/select_options.inc';
 function products_comparison_init(){
   $mpath = drupal_get_path('module', 'products_comparison');
   drupal_add_js($mpath . '/js/comparison_slider.js');
+  drupal_add_js(array('mpath'=> $mpath), 'setting');
 }
 
 
@@ -28,7 +29,7 @@ function products_comparison_block_view($delta='') {
 
 
 function products_comparison_main_content(){
-  global $platforms, $firstyears_array, $tiles_array, $layers_array, $layersN_array;           
+  global $platforms, $firstyears_array, $tiles_array, $layers_array, $layersN_array, $ccv_array;           
   global $datadir, $datadir2;
   global $defyear;
   global $base_url;
@@ -69,6 +70,12 @@ function products_comparison_main_content(){
      $layer2 = $layers_array[0];
   }
 
+  if(isset($_GET["ccv"])){
+     $ccv = $_GET["ccv"];
+  }else{
+     $ccv = $ccv_array[0];
+  }
+
   if(isset($_GET["action"])){
      $action = $_GET["action"];
   }else{
@@ -76,12 +83,17 @@ function products_comparison_main_content(){
   }
 
 // define first array with dummy values for "date, id, address, latlong" 
-  $prinfo = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None","None", array(68, 12)));
+  $prinfo = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None","None", array(68, 12), "None"));
   $query_res = [];
   if ($tile !== "None"){
      //extract prinfo
-     $fields = "id, mmd_data_access_resource, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_south, mmd_geographic_extent_rectangle_east, mmd_geographic_extent_rectangle_west, mmd_data_access_wms_layers_wms_layer";
-     $query_prd = 'full_text:S2*'.$tile.'*';
+     $fields = "id, mmd_data_access_resource, mmd_cloud_cover_value, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_south, mmd_geographic_extent_rectangle_east, mmd_geographic_extent_rectangle_west, mmd_data_access_wms_layers_wms_layer";
+     if ($ccv[0] == '<'){
+        $query_prd = 'full_text:S2*'.$tile.'* AND mmd_cloud_cover_value:[* TO '.substr($ccv,-2).']';
+     }else{
+        $query_prd = 'full_text:S2*'.$tile.'* AND mmd_cloud_cover_value:[90 TO *]';
+     }
+     //drupal_set_message(print_r($query_prd, TRUE), 'warning'); // all available prods within the cloud coverage limit
      $con = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
      $res = $con->get('/solr/'.SOLR_CORE_PARENT.'/select', array("q" =>$query_prd, "start" => 0, "rows" => 100000, "wt" => "json", "fl" => $fields,));
      $query_res = json_decode($res['body'], true);
@@ -95,6 +107,8 @@ function products_comparison_main_content(){
         $id = $doc['id'];
         $address = $doc['mmd_data_access_resource'][1];
         $address = json_decode("{".$address."}",true)['OGC WMS'];
+        $azz = $doc['mmd_cloud_cover_value'];
+        //drupal_set_message(print_r($azz, TRUE), 'warning'); // all available prods
         $north = $doc['mmd_geographic_extent_rectangle_north'];
         $south = $doc['mmd_geographic_extent_rectangle_south'];
         $east = $doc['mmd_geographic_extent_rectangle_east'];
@@ -110,31 +124,14 @@ function products_comparison_main_content(){
         $count = $count + 1; 
      }
      rsort($prinfo);
-     $first = array_pop($prinfo);
-     array_unshift($prinfo,$first);
+     //$first = array_pop($prinfo);
+     //array_unshift($prinfo,$first);
 
   }
-
-//   #if the tile is selected place the last and second last products on the map
-//   if ($tile !== "None") {
-//     //latest product
-//      $pr1 = $prinfo[0][1];
-//      $address1 = $prinfo[0][2];
-//      $latlon1 = array($prinfo[0][3][0],$prinfo[0][3][1]);
-//      //second latest product
-//      $pr2 = $prinfo[1][1];
-//      $address2 = $prinfo[1][2];
-//      $latlon2 = array($prinfo[1][3][0],$prinfo[1][3][1]);
-//   }
-//   drupal_set_message(print_r($pr1, TRUE), 'warning'); // all available prods
-//   drupal_set_message(print_r($latlon1, TRUE), 'warning'); //pr1
-//   drupal_set_message(print_r($pr2, TRUE), 'warning'); // all available prods
-//   drupal_set_message(print_r($latlon2, TRUE), 'warning'); //url pr1
-  
   
   #call the function creating the selection options
   $selection_out = [];
-  $selection_out = select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$layer1,$layer2,$action, $tiles_array, $layers_array, $layersN_array);
+  $selection_out = select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$layer1,$layer2,$ccv,$action, $tiles_array, $layers_array, $layersN_array, $ccv_array);
   $out = $selection_out[0];  
   $address1 = $selection_out[1];  
   $address2 = $selection_out[2];  
@@ -193,14 +190,6 @@ return $out . '
       lat = '.$ll[0].';
       lon = '.$ll[1].';
       site_name = '.$sn_j.';
-//       location.hash = "pr1=";
-//       location.hash +=  id1;
-//       location.hash += "#pr2=";
-//       location.hash += id2;
-//       location.hash += "#layer1=";
-//       location.hash += ly1;
-//       location.hash += "#layer2=";
-//       location.hash += ly2;
       zoomv = '.$zoom.';
     </script>
 <style>
@@ -225,7 +214,6 @@ return $out . '
 
 .drop-selection {
    height: 30px !important;
-   display: inline !important;
    margin-right: auto;
    margin-left: auto;
 }

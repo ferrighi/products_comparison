@@ -5,4 +5,5 @@ core = 7.x
 scripts[] = js/comparison_slider.js
 files[] = includes/global_variables.inc
 files[] = includes/select_options.inc
+files[] = includes/stripped_tiles_np.kml
 files[] = css/style_selection.css

@@ -1,6 +1,6 @@
 <?php
 
-global $platforms, $firstyears_array, $fname_postf, $fname_sensor, $tiles_array, $layers_array, $layersN_array; 
+global $platforms, $firstyears_array, $fname_postf, $fname_sensor, $tiles_array, $layers_array, $layersN_array, $ccv_array; 
 global $datadir, $datadir2;
 
 # define source of files and pages where to show the block
@@ -15,6 +15,17 @@ $platforms = array("S2A", "S2B");
 $firstyears_array = "2015";
 
 $fname_postf = ".nc";
+
+$ccv_array = array("<10",
+                   "<20",
+                   "<30",
+                   "<40",
+                   "<50",
+                   "<60",
+                   "<70",
+                   "<80",
+                   "<90",
+                   "90+");
 
 $layers_array = array("true_color_vegetation",
                       "false_color_vegetation", 
