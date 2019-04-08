@@ -91,7 +91,7 @@ function products_comparison_main_content(){
      if ($ccv[0] == '<'){
         $query_prd = 'full_text:S2*'.$tile.'* AND mmd_cloud_cover_value:[* TO '.substr($ccv,-2).']';
      }else{
-        $query_prd = 'full_text:S2*'.$tile.'* AND mmd_cloud_cover_value:[90 TO *]';
+        $query_prd = 'full_text:S2*'.$tile.'*';
      }
      //drupal_set_message(print_r($query_prd, TRUE), 'warning'); // all available prods within the cloud coverage limit
      $con = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
@@ -107,7 +107,7 @@ function products_comparison_main_content(){
         $id = $doc['id'];
         $address = $doc['mmd_data_access_resource'][1];
         $address = json_decode("{".$address."}",true)['OGC WMS'];
-        $azz = $doc['mmd_cloud_cover_value'];
+        //$azz = $doc['mmd_cloud_cover_value'];
         //drupal_set_message(print_r($azz, TRUE), 'warning'); // all available prods
         $north = $doc['mmd_geographic_extent_rectangle_north'];
         $south = $doc['mmd_geographic_extent_rectangle_south'];

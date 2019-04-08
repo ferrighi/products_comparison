@@ -25,7 +25,7 @@ $ccv_array = array("<10",
                    "<70",
                    "<80",
                    "<90",
-                   "90+");
+                   "Any");
 
 $layers_array = array("true_color_vegetation",
                       "false_color_vegetation", 

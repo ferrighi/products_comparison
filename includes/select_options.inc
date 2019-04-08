@@ -41,7 +41,7 @@ function select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$layer1,$layer2,$ccv,$ac
 
   #set up the cloud selection for pr1 & pr2
   $output .= "<th rowspan=\"2\">";
-  $output .= "<select class=\"drop-selection\" onchange=\"this.form.pr1.value='None'; this.form.pr2.value='None'; this.form.submit()\" name=\"ccv\">";
+  $output .= "<select class=\"drop-selection\" onchange=\"this.form.ccv.value='".$ccv_array[0]."'; this.form.pr1.value='None'; this.form.pr2.value='None'; this.form.submit()\" name=\"ccv\">";
   for ($p=0;$p<count($ccv_array);$p++) {
     if ($ccv_array[$p] !== $ccv) {
       $output .= "<option value=".$ccv_array[$p].">".$ccv_array[$p]."</option>";
