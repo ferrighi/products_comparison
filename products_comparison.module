@@ -5,6 +5,7 @@ require_once 'includes/select_options.inc';
 function products_comparison_init(){
   $mpath = drupal_get_path('module', 'products_comparison');
   drupal_add_js($mpath . '/js/comparison_slider.js');
+  drupal_add_css($mpath . '/css/style_selection.css');
 }
 
 
@@ -28,11 +29,13 @@ function products_comparison_block_view($delta='') {
 
 
 function products_comparison_main_content(){
-  global $platforms, $firstyears_array, $tiles_array, $fname_postf, $fname_sensor;                                                             
+  global $platforms, $firstyears_array, $tiles_array, $layers_array, $layersN_array;           
   global $datadir, $datadir2;
   global $defyear;
   global $base_url;
   global $metsis_conf;
+  
+  $site_name = variable_get('site_name', 'Default');
 //
   $scr_name = $base_url ."/comparison";
 //
@@ -55,17 +58,30 @@ function products_comparison_main_content(){
      $pr2 = "None";
   }
 
+  if(isset($_GET["layer1"])){
+     $layer1 = $_GET["layer1"];
+  }else{
+     $layer1 = $layers_array[0];
+  }
+
+  if(isset($_GET["layer2"])){
+     $layer2 = $_GET["layer2"];
+  }else{
+     $layer2 = $layers_array[0];
+  }
+
   if(isset($_GET["action"])){
      $action = $_GET["action"];
   }else{
      $action = "";
   }
 
-  $prinfo = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None","None", array(68, 10)));
+// define first array with dummy values for "date, id, address, latlong" 
+  $prinfo = array(array(array("YYYY", "MM","DD", "THHMMSS"), "None","None", array(68, 12)));
   $query_res = [];
   if ($tile !== "None"){
      //extract prinfo
-     $fields = "id, mmd_data_access_resource, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_south, mmd_geographic_extent_rectangle_east, mmd_geographic_extent_rectangle_west";
+     $fields = "id, mmd_data_access_resource, mmd_geographic_extent_rectangle_north, mmd_geographic_extent_rectangle_south, mmd_geographic_extent_rectangle_east, mmd_geographic_extent_rectangle_west, mmd_data_access_wms_layers_wms_layer";
      $query_prd = 'full_text:S2*'.$tile.'*';
      $con = new HttpConnection(SOLR_SERVER_IP, SOLR_SERVER_PORT);
      $res = $con->get('/solr/'.SOLR_CORE_PARENT.'/select', array("q" =>$query_prd, "start" => 0, "rows" => 100000, "wt" => "json", "fl" => $fields,));
@@ -84,103 +100,115 @@ function products_comparison_main_content(){
         $south = $doc['mmd_geographic_extent_rectangle_south'];
         $east = $doc['mmd_geographic_extent_rectangle_east'];
         $west = $doc['mmd_geographic_extent_rectangle_west'];
+        $layers = $doc['mmd_data_access_wms_layers_wms_layer'];
         $ayear = substr($time_string, 0, 4);
         $amonth = substr($time_string, 4, 2); 
         $aday = substr($time_string, 6, 2);
         $atime = substr($time_string, 8, 7);
         $date = array($ayear,$amonth, $aday, $atime);
         $latlon = array(($south+$north)/2, ($east+$west)/2);
-        $prinfo[$count] = array($date, $id, $address, $latlon);
+        $prinfo[$count] = array($date, $id, $address, $latlon,$layers);
         $count = $count + 1; 
      }
-     sort($prinfo);
+     rsort($prinfo);
+     $first = array_pop($prinfo);
+     array_unshift($prinfo,$first);
+
   }
 
+//   #if the tile is selected place the last and second last products on the map
+//   if ($tile !== "None") {
+//     //latest product
+//      $pr1 = $prinfo[0][1];
+//      $address1 = $prinfo[0][2];
+//      $latlon1 = array($prinfo[0][3][0],$prinfo[0][3][1]);
+//      //second latest product
+//      $pr2 = $prinfo[1][1];
+//      $address2 = $prinfo[1][2];
+//      $latlon2 = array($prinfo[1][3][0],$prinfo[1][3][1]);
+//   }
+//   drupal_set_message(print_r($pr1, TRUE), 'warning'); // all available prods
+//   drupal_set_message(print_r($latlon1, TRUE), 'warning'); //pr1
+//   drupal_set_message(print_r($pr2, TRUE), 'warning'); // all available prods
+//   drupal_set_message(print_r($latlon2, TRUE), 'warning'); //url pr1
+  
+  
   #call the function creating the selection options
   $selection_out = [];
-  $selection_out = select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$action,$tiles_array);
+  $selection_out = select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$layer1,$layer2,$action, $tiles_array, $layers_array, $layersN_array);
   $out = $selection_out[0];  
   $address1 = $selection_out[1];  
   $address2 = $selection_out[2];  
   $latlon1 = $selection_out[3];  
   $latlon2 = $selection_out[4];  
-
+  
+  
+  
   $build_path1 = "null";
   $build_path2 = "null";
-  $zoom = 2;
+  $zoom = 3;
   $ll = $latlon1;
+
   if ($pr1 !== 'None'){ 
      $build_path1 = '"'.$address1.'"'; 
-     $zoom = 6;
+     $zoom = 7;
   }
   if ($pr2 !== 'None'){ 
      $build_path2 = '"'.$address2.'"'; 
-     $zoom = 6;
+     $zoom = 7;
      $ll = $latlon2;
   }
-
+  $tile_j = '"'.$tile.'"';
+  
   $id_j1 = '"'.$pr1.'"';
   $id_j2 = '"'.$pr2.'"';
+
+  $ly_j1 = '"'.$layer1.'"';
+  $ly_j2 = '"'.$layer2.'"';
+  
+  $sn_j = '"'.$site_name.'"';
 
 return $out . '
 
 <!doctype html>                                                                                                                                                                                                         
 <html lang="en">                                                                                                                                                                                                        
   <head>                                                                                                                                          
-    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/openlayers3/css/ol.css" type="text/css">
-    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/openlayers3/apidoc/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/sites/satellittdata.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.css">
-    <script src="/sites/satellittdata.metsis.met.no/libraries/openlayers3/build/ol.js" type="text/javascript"></script>
     <script src="/sites/all/modules/jquery_update/replace/jquery/1.10/jquery.min.js"></script>
-    <script src="/sites/satellittdata.metsis.met.no/libraries/openlayers3/apidoc/scripts/bootstrap.min.js"></script>
-    <script src="/sites/satellittdata.metsis.met.no/libraries/ol3-layerswitcher/src/ol3-layerswitcher.js"></script>
+
+    <link rel="stylesheet" href="/sites/'.$site_name.'/libraries/openlayers3/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="/sites/'.$site_name.'/libraries/openlayers3/apidoc/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/sites/'.$site_name.'/libraries/ol3-layerswitcher/src/ol3-layerswitcher.css">
+    <script src="/sites/'.$site_name.'/libraries/openlayers3/build/ol.js" type="text/javascript"></script>
+    <script src="/sites/'.$site_name.'/libraries/openlayers3/apidoc/scripts/bootstrap.min.js"></script>
+    <script src="/sites/'.$site_name.'/libraries/ol3-layerswitcher/src/ol3-layerswitcher.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.2.1/proj4.js"></script>
     <script type="text/javascript">
+      scr_name = '.'"'.$scr_name.'"'.';
+      tl = '.$tile_j.';
       prod_id1 = '.$build_path1.';
       prod_id2 = '.$build_path2.';
       id1 = '.$id_j1.';
       id2 = '.$id_j2.';
+      ly1 = '.$ly_j1.';
+      ly2 = '.$ly_j2.';
       lat = '.$ll[0].';
       lon = '.$ll[1].';
+      site_name = '.$sn_j.';
+//       location.hash = "pr1=";
+//       location.hash +=  id1;
+//       location.hash += "#pr2=";
+//       location.hash += id2;
+//       location.hash += "#layer1=";
+//       location.hash += ly1;
+//       location.hash += "#layer2=";
+//       location.hash += ly2;
       zoomv = '.$zoom.';
     </script>
-<style>
-      .map {
-        /*height: 500px;*/
-        width: 100%;
-        margin: auto;
-        border: 2px solid #c8c7c7;
-      }
-
-.drop-selection {
-   height: 30px !important;
-   display: inline !important;
-   margin-right: auto;
-   margin-left: auto;
-}
-
-.table, th, td, tr {
-   border: 1px solid #c8c7c7;
-}
-
-#swipe::-moz-range-thumb {
-    align: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%; 
-    background: #81b6da;
-    border-color: #000;
-    border-width: 1px;
-    cursor: pointer;
-}
-
-
-    </style>
   </head>
   <body>
     <div id="map" class="map" >
     <input id="swipe" type="range" style="width: 100%; margin-bottom:10px; margin: 0px">
-    <script type="text/javascript" src="/sites/satellittdata.metsis.met.no/modules/products_comparison/js/comparison_slider.js"></script>
+    <script type="text/javascript" src="/sites/'.$site_name.'/modules/products_comparison/js/comparison_slider.js"></script>
   </body>
 </html>
 ';
