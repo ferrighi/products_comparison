@@ -1,3 +1,31 @@
 .drop-selection {
    height: 30px !important;
 }
+.map {
+  height: 600px;
+  width: 100%;
+  margin: auto;
+  border: 2px solid #c8c7c7;
+}
+
+.drop-selection {
+height: 30px !important;
+display: inline !important;
+margin-right: auto;
+margin-left: auto;
+}
+
+.table, th, td, tr {
+border: 1px solid #c8c7c7;
+}
+
+#swipe::-moz-range-thumb {
+align: center;
+width: 15px;
+height: 15px;
+border-radius: 50%;
+background: #81b6da;
+border-color: #000;
+border-width: 1px;
+cursor: pointer;
+}

@@ -1,8 +1,0 @@
-name = Products comparison module
-description = "Selection of two products with a comparison slider on top of a OL map"
-core = 7.x
-
-scripts[] = js/comparison_slider.js
-files[] = includes/global_variables.inc
-files[] = includes/select_options.inc
-files[] = css/style_selection.css

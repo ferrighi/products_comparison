@@ -1,0 +1,29 @@
+#Define menu links here
+products_comparison:
+  title: 'Products Comparison'
+  description: 'Products Comparison'
+  route_name: products_comparison
+  parent: metsis.services
+  weight: 99
+
+metsis.services:
+  title: 'Services'
+  route_name: metsis.services
+  description: "METSIS Services"
+  menu_name: main
+
+
+products_comparison.admin_config_form:
+  title: 'Products comparison configuration'
+  description: 'Configure products comparison'
+  route_name: products_comparison.admin_config_form
+  parent: metno.group.admin
+  weight: 99
+
+metno.group.admin:
+  title: 'METNO'
+  route_name: system.admin_config_metno
+  parent: system.admin_config
+  description: 'METNO Configuration'
+  weight: -999
+~
