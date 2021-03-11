@@ -5,6 +5,7 @@ require_once 'includes/select_options.inc';
 function products_comparison_init(){
   $mpath = drupal_get_path('module', 'products_comparison');
   drupal_add_js($mpath . '/js/comparison_slider.js');
+  drupal_add_css($mpath . '/css/style_selection.css');
 }
 
 
@@ -203,75 +204,6 @@ return $out . '
 //       location.hash += ly2;
       zoomv = '.$zoom.';
     </script>
-<style>
-.map {
-  width: 100%;
-  margin: auto;
-  border: 2px solid #c8c7c7;
-}
-.map:-moz-full-screen {
-  height: 100%;
-}
-.map:-webkit-full-screen {
-  height: 100%;
-}
-.map:-ms-fullscreen {
-  height: 100%;
-}
-.map:fullscreen {
-  height: 100%;
-}
-
-
-.drop-selection {
-   height: 30px !important;
-   display: inline !important;
-   margin-right: auto;
-   margin-left: auto;
-}
-
-.table, th, td, tr {
-   border: 1px solid #c8c7c7;
-}
-#info {
-  height: 1px;
-  width: 1px;
-  z-index: 100;
-  left: 200px;
-  top: 100px;
-}
-.popover {
-  max-width: unset;
-  left: 200px;
-  top: 100px;
-}
-.popover table tr td {
-  padding: 0 2px 0 2px;
-}
-.popover.top {
-  left:10px;
-}
-.popover.top .arrow{
-  display: none;
-}
-
-
-#swipe::-moz-range-thumb {
-    align: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%; 
-    background: #81b6da;
-    border-color: #000;
-    border-width: 1px;
-    cursor: pointer;
-}
-.ol-mouse-position {
-     top: 95%;
-     left: 2%;
-}
-
-    </style>
   </head>
   <body>
     <div id="map" class="map" >

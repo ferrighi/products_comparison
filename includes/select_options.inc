@@ -4,7 +4,7 @@ function select_image($scr_name,$pr1,$pr2,$prinfo,$tile,$layer1, $layer2,$action
 
   global $firstyears_array, $defyear;
   $output = '';
-  $output .= "<table style=\"width:80%; margin-right:auto; margin-left:auto\">";
+  $output .= "<table style=\"width:80%; margin-right:auto; margin-left:auto; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\">";
   $output .= "<tr>";
   $output .= "<th style=\"text-align: center; color: #222222\">";
   $output .= "Tile";
