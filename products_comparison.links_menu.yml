@@ -1,6 +1,6 @@
 products_comparison:
   title: 'Products Comparison'
-  description: 'Products Comparison'
+  description: 'Sentinel-2 products comparison'
   route_name: products_comparison
   parent: metsis.services
   weight: 99
