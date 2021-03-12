@@ -1,4 +1,4 @@
 products_comparison.configuration:
-  route_name: products_comparison.configuration
+  route_name: products_comparison.admin_config_form
   title: Settings
-  base_route: products_comparison.configuration
+  base_route: products_comparison.admin_config_form
