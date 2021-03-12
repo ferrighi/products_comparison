@@ -82,8 +82,8 @@
   ]
 %}
 
-<article{{ attributes.addClass(classes) }}>
-
+{# <article{{ attributes.addClass(classes) }}> #}
+<div>
   {{ title_prefix }}
   {% if not page %}
     <h3 {{ title_attributes.addClass('w3-margin-left node__title') }}>
@@ -149,4 +149,5 @@
       <br>
       {{ helptext }}
 </div>
-</article>
+{# </article> #}
+</div>
