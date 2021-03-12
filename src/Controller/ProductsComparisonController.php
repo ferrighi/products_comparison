@@ -82,6 +82,7 @@ class ProductsComparisonController extends ControllerBase {
               'products_comparison' => [
                 'zoomv' => $zoom,
                 'time_path' => $path,
+                'site_name' => $site_name,
             ],
           ],
           ],

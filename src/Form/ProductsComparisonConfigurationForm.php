@@ -45,7 +45,6 @@ class ProductsComparisonConfigurationForm extends ConfigFormBase {
     $config = $this->config('products_comparison.configuration');
     $form = [];
 
-
     $form['helptext'] = [
       '#type'          => 'text_format',
       '#title'         => $this->t('Help markup text'),

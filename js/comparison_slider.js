@@ -16,6 +16,7 @@ console.log("Start of products_comparison map script:");
           var zoomv = drupalSettings.products_comparison.zoomv;
           var prinfo = drupalSettings.products_comparison.prinfo;
           var time_path = drupalSettings.products_comparison.time_path;
+          var site_name = drupalSettings.products_comparison.site_name;
 
           console.log("ZoomLevel: " + zoomv);
 
@@ -86,7 +87,7 @@ console.log("Start of products_comparison map script:");
           var kmlTilelayer = new ol.layer.Vector({
             title: 'Tiles',
             source: new ol.source.Vector({
-              url: '/sites/all/files/kml/stripped_tiles_np.kml',
+              url: '/sites/'+ site_name + '/files/stripped_tiles_np.kml',
               format: new ol.format.KML({
                 extractStyles: false,
                 extractAttributes: true
