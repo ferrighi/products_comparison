@@ -1,0 +1,4 @@
+langcode: en
+helptext:
+  value:  "<p>This tool will compare two S2 products, for a selected tile. Users can compare different times and different composites. To use the tool:</p>\r\n\r\n<ul>\r\n\t<li>Select a tile either from the list provided or by clicking on the map.</li>\r\n\t<li>Optionally select cloud coverage</li>\r\n\t<li>Select the dates from the available lists provided for the two products.</li>\r\n\t<li>Move the slider on the top using the button on the bar to compare the images.</li>\r\n</ul>\r\n\r\n<p>To show/hide layers use the Layer Switcher icon on the top right of the map.</p>\r\n\r\n<p><strong><em>This is a test page and the service is still under developement.</em></strong></p>\r\n"
+  format: 'basic_html'

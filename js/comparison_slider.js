@@ -141,8 +141,42 @@ console.log("Start of products_comparison map script:");
           map.addControl(mousePositionControl);
 
 
+          //Overaly for marker.
+          var featureOverlay = new ol.layer.Vector({
+            source: new ol.source.Vector(),
+            map: map,
+            style: function (feature) {
+              return styleBlue;
+            }
+          });
+
+          var highlight;
+          var displayFeatureInfo = function (pixel) {
+            kmlTilelayer.getFeatures(pixel).then(function (features) {
+              var feature = features.length ? features[0] : undefined;
+
+              if (feature !== highlight) {
+                if (highlight) {
+                  featureOverlay.getSource().removeFeature(highlight);
+                }
+                if (feature) {
+                  featureOverlay.getSource().addFeature(feature);
+                }
+                highlight = feature;
+              }
+            });
+          };
+
+          map.on('pointermove', function (evt) {
+            if (evt.dragging) {
+              return;
+            }
+            var pixel = map.getEventPixel(evt.originalEvent);
+              displayFeatureInfo(pixel);
+          });
+
           //Blue border when moving over a tile
-          map.on('pointermove', function(evt) {
+    /*      map.on('pointermove', function(evt) {
             if(!evt.dragging) {
             map.getLayers().getArray()[1].getSource().forEachFeature(function(feature) {
               if(feature.get('name') !== null) {
@@ -159,7 +193,7 @@ console.log("Start of products_comparison map script:");
             });
           }
           });
-
+*/
   /*
           var selected = null;
           map.on('pointermove', function (e) {
@@ -349,6 +383,14 @@ console.log("Start of products_comparison map script:");
                 }))
             }
           });
+          $('#productTwo > option').each( function() {
+            if($(this).val() === selectedId1) {
+              $(this).hide();
+            }
+            else {
+              $(this).show();
+            }
+          });
           if(selectedId1 !== 'None' && selectedId2 !== 'None') {
             $('#compInfo').html('<strong>You are comparing Sentinel-2 products:</strong><br>' + selectedId1 + '<br>' + selectedId2);
           }
@@ -373,6 +415,14 @@ console.log("Start of products_comparison map script:");
                     'VERSION': '1.3.0',
                   }
                 }))
+            }
+          });
+          $('#productOne > option').each( function() {
+            if($(this).val() === selectedId2) {
+              $(this).hide();
+            }
+            else {
+              $(this).show();
             }
           });
           if(selectedId1 !== 'None' && selectedId2 !== 'None') {

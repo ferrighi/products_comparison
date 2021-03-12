@@ -47,12 +47,10 @@ class ProductsComparisonConfigurationForm extends ConfigFormBase {
 
 
     $form['helptext'] = [
-      '#type' => 'text_format ',
-      '#format' => 'basic_html',
-      '#title' => $this->t('Helptext for products comparison'),
-
-      '#description' => $this->t('Enter html for helptext and description of how to use this service.'),
-      '#default_value' => $config->get('helptext'),
+      '#type'          => 'text_format',
+      '#title'         => $this->t('Help markup text'),
+      '#format'        => $config->get('helptext')['format'],
+      '#default_value' => $config->get('helptext')['value'],
     ];
 
     //$form['#attached']['library'][] = 'products_comparison/products_comparison';

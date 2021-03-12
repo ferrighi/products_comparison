@@ -13,7 +13,7 @@ products_comparison.date:
     _title: 'Products ajax callback'
   options:
     query:
-      cloud: "None"      
+      cloud: "None"
   requirements:
     _permission: 'access content'
 
@@ -24,12 +24,11 @@ metsis.services:
   requirements:
     _permission: 'access content'
 
-
 products_comparison.admin_config_form:
   path: '/admin/config/metno/products_comparison'
   defaults:
     _form: '\Drupal\products_comparison\Form\ProductsComparisonConfigurationForm'
-    _title: 'Products Comparison Configuration Form'
+    _title: 'Sentinel-2 products comparison configuration'
   requirements:
     _permission: 'administer site configuration'
   options:

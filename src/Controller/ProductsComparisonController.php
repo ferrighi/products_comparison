@@ -37,7 +37,8 @@ class ProductsComparisonController extends ControllerBase {
         $datadir  = "http://nbswms.met.no/thredds/wms_jpeg/NBS";
         $datadir2  = "http://nbswms.met.no/thredds/wms/NBS";
 
-
+        $module_config = \Drupal::config('products_comparison.configuration');
+        $helptext = Markup::create($module_config->get('helptext')['value']);
         //Get the route path of the ajax callbacks, and send to the javascript as drupalSettings
         $route_provider = \Drupal::service('router.route_provider');
         $route = $route_provider->getRouteByName('products_comparison.date');
@@ -70,6 +71,7 @@ class ProductsComparisonController extends ControllerBase {
             '#theme' => 'products_comparison-template',
             '#site_name' => $site_name,
             '#tiles' => $tiles_array,
+            '#helptext' => $helptext,
             '#attached' => [
               'library' => [
                 'products_comparison/products_comparison',

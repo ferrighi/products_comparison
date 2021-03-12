@@ -1,0 +1,10 @@
+products_comparison.configuration:
+  type: config_object
+  label: 'Sentinel-2 products comparison configuration'
+  mapping:
+    helptext:
+      label: 'Help text to be displayed under the map'
+      type: text_format
+    language:
+      type: string
+      label: 'Language code'

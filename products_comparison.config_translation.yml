@@ -1,0 +1,5 @@
+products_comparison.configuration:
+  title: 'Sentinel-2 products comparison configuration'
+  base_route_name: products_comparison.configuration
+  names:
+    - products_comparison.configuration

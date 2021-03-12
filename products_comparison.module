@@ -28,6 +28,7 @@ function products_comparison_theme( $existing, $type, $theme, $path ){
             'variables' => [
                 'site_name' => "Default",
                 'tiles' => null,
+                'helptext' => '',
               ],
         ],
     ];
