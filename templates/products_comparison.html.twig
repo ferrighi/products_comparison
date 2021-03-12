@@ -104,7 +104,7 @@
   {% endif %}
 
   <div id="comparisonID" {{ content_attributes.addClass('w3-container node__content block-mosaic') }}>
-
+<div id="throbber"></div>
   <table style="width:80%; margin-right:auto; margin-left:auto; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"><tr><th style="text-align: center; color: #222222">Tile</th><th style="text-align: center; color: #222222">Cloud coverage</th><th style="text-align: center; color: #222222">Date - Time</th><th style="text-align: center; color: #222222">Composites</th></tr><tr>
 <th rowspan="2"><select class="drop-selection" id="tileSelect" name="tile">
 <option value="None" selected="selected">None</option>
@@ -112,6 +112,7 @@
  <option value={{ tile }}>{{ tile }}</option>
  {% endfor %}
 </select>
+
 <th rowspan="2"><select class="drop-selection" id="cloudSelect" name="cloud">
 <option value="None" selected="selected">Cloud coverage %</option>
  <option value=0.1 ><10%</option>

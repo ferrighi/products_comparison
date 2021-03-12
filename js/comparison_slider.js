@@ -242,6 +242,8 @@ console.log("Start of products_comparison map script:");
           var productData = null;
 
           function getProductData(tile) {
+            //let loader = '<img src="/core/misc/throbber-active.gif"/>';
+            //$('#throbber').append(loader);
             fetch('/services/comparison/date/' + tile + '?cloud=' + cloudCoverage)
               .then((resp) => resp.json())
               .then(function(data) {
@@ -261,6 +263,7 @@ console.log("Start of products_comparison map script:");
               .catch(function(error) {
                 console.log(error);
               });
+            //$('#throbber').empty();
           }
 
 

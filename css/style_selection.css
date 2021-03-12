@@ -1,5 +1,9 @@
-.drop-selection {
-   height: 30px !important;
+#info {
+  height: 1px;
+  width: 1px;
+  z-index: 100;
+  left: 200px;
+  top: 100px;
 }
 .map {
   height: 600px;
