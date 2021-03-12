@@ -31,7 +31,8 @@ class ProductsComparisonController extends ControllerBase {
       global $datadir, $datadir2;
 
         $config = \Drupal::config('system.site');
-        $site_name = $config->get('name');
+        $site_name = \Drupal::request()->getHost(); 
+        //$config->get('name');
 
         # define source of files and pages where to show the block
         $datadir  = "http://nbswms.met.no/thredds/wms_jpeg/NBS";
