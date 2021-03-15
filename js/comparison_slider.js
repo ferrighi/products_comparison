@@ -19,6 +19,8 @@ console.log("Start of products_comparison map script:");
           var site_name = drupalSettings.products_comparison.site_name;
 
           console.log("ZoomLevel: " + zoomv);
+          console.log("Lat center: " + lat);
+          console.log("Lon center: " + lon);
 
           // WGS 84 / UPS North (N,E)
           proj4.defs('EPSG:32661', '+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +datum=WGS84 +units=m +no_defs');
@@ -123,7 +125,7 @@ console.log("Start of products_comparison map script:");
               minZoom: 1,
               maxZoom: 12,
               //center: centerTrans,
-              center: ol.proj.transform([15, 71], "EPSG:4326", prj),
+              center: ol.proj.transform([lon, lat], "EPSG:4326", prj),
               projection: prj,
               extent: ext
             }),

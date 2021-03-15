@@ -45,6 +45,26 @@ class ProductsComparisonConfigurationForm extends ConfigFormBase {
     $config = $this->config('products_comparison.configuration');
     $form = [];
 
+    $form['defzoom'] = [
+      '#type' => 'number',
+      '#title' => 'Enter default initial map zoom',
+      '#default_value' => $config->get('defzoom'),
+    ];
+
+    $form['lon'] = [
+      '#type' => 'number',
+      '#title' => 'Enter default longitude center map point (EPSG:4326)',
+      '#default_value' => $config->get('lon'),
+    ];
+    
+    $form['lat'] = [
+      '#type' => 'number',
+      '#title' => 'Enter default latitude center map point (EPSG:4326)',
+      '#default_value' => $config->get('lat'),
+    ];
+
+
+
     $form['helptext'] = [
       '#type'          => 'text_format',
       '#title'         => $this->t('Help markup text'),
@@ -76,6 +96,9 @@ class ProductsComparisonConfigurationForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $this->configFactory->getEditable('products_comparison.configuration')
       ->set('helptext', $values['helptext'])
+      ->set('defzoom', $values['defzoom'])
+      ->set('lat', $values['lat'])
+      ->set('lon', $values['lon'])
       ->save();
     parent::submitForm($form, $form_state);
   }

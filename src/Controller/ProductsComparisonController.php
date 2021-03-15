@@ -31,7 +31,7 @@ class ProductsComparisonController extends ControllerBase {
       global $datadir, $datadir2;
 
         $config = \Drupal::config('system.site');
-        $site_name = \Drupal::request()->getHost(); 
+        $site_name = \Drupal::request()->getHost();
         //$config->get('name');
 
         # define source of files and pages where to show the block
@@ -40,6 +40,10 @@ class ProductsComparisonController extends ControllerBase {
 
         $module_config = \Drupal::config('products_comparison.configuration');
         $helptext = Markup::create($module_config->get('helptext')['value']);
+        $lat = $module_config->get('lat');
+        $lon = $module_config->get('lon');
+        $defzoom = $module_config->get('defzoom');
+
         //Get the route path of the ajax callbacks, and send to the javascript as drupalSettings
         $route_provider = \Drupal::service('router.route_provider');
         $route = $route_provider->getRouteByName('products_comparison.date');
@@ -64,7 +68,7 @@ class ProductsComparisonController extends ControllerBase {
         );
 
 
-        $zoom = 3;
+        //$zoom = 3;
 
 
         return [
@@ -81,7 +85,9 @@ class ProductsComparisonController extends ControllerBase {
 
             'drupalSettings' => [
               'products_comparison' => [
-                'zoomv' => $zoom,
+                'zoomv' => $defzoom,
+                'lat' => $lat,
+                'lon' => $lon,
                 'time_path' => $path,
                 'site_name' => $site_name,
             ],
