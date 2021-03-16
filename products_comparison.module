@@ -33,3 +33,18 @@ function products_comparison_theme( $existing, $type, $theme, $path ){
         ],
     ];
 }
+
+// Implements hook_theme()
+function products_comparison_nb_theme( $existing, $type, $theme, $path ){
+    return [
+        'products_comparison_nb-template' => [
+            'render element' => 'container', // To render a simple container element
+            'template' => 'products_comparison_nb', // My template file name
+            'variables' => [
+                'site_name' => "Default",
+                'tiles' => null,
+                'helptext' => '',
+              ],
+        ],
+    ];
+}
