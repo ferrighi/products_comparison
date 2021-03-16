@@ -69,7 +69,7 @@ class ProductsComparisonController extends ControllerBase {
 
 
         //$zoom = 3;
-        $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      /*  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
         switch($language) {
           case 'nb':
             $template = 'products_comparison_nb-template';
@@ -78,10 +78,10 @@ class ProductsComparisonController extends ControllerBase {
             $template = 'products_comparison-template';
             break;
           }
-
+*/
         return [
             '#type' => 'container',
-            '#theme' => $template,
+            '#theme' => 'products_comparison-template',
             '#site_name' => $site_name,
             '#tiles' => $tiles_array,
             '#helptext' => $helptext,

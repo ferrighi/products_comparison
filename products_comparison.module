@@ -21,6 +21,28 @@ function products_comparison_help($route_name, RouteMatchInterface $route_match)
 
 // Implements hook_theme()
 function products_comparison_theme( $existing, $type, $theme, $path ){
+  //dpm($existing);
+  //\Drupal::logger('comparison_module')->debug(implode(' : ', implode(', ' , $existing)));
+  \Drupal::logger('comparison_module')->debug($type);
+  \Drupal::logger('comparison_module')->debug($theme);
+  \Drupal::logger('comparison_module')->debug($path);
+
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  switch($language) {
+    case 'nb':
+    return [
+        'products_comparison-template' => [
+            'render element' => 'container', // To render a simple container element
+            'template' => 'products_comparison_nb', // My template file name
+            'variables' => [
+                'site_name' => "Default",
+                'tiles' => null,
+                'helptext' => '',
+              ],
+        ],
+    ];
+      break;
+    case 'en':
     return [
         'products_comparison-template' => [
             'render element' => 'container', // To render a simple container element
@@ -32,6 +54,10 @@ function products_comparison_theme( $existing, $type, $theme, $path ){
               ],
         ],
     ];
+      break;
+    }
+
+
 }
 
 // Implements hook_theme()
