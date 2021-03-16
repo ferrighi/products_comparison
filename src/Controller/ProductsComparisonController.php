@@ -69,11 +69,19 @@ class ProductsComparisonController extends ControllerBase {
 
 
         //$zoom = 3;
-
+        $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        switch($language) {
+          case 'nb':
+            $template = 'products_comparison_nb-template';
+            break;
+          case 'en':
+            $template = 'products_comparison-template';
+            break;
+          }
 
         return [
             '#type' => 'container',
-            '#theme' => 'products_comparison-template',
+            '#theme' => $template,
             '#site_name' => $site_name,
             '#tiles' => $tiles_array,
             '#helptext' => $helptext,
@@ -98,6 +106,24 @@ class ProductsComparisonController extends ControllerBase {
           ],
         ];
     }
+
+    /**
+  * Returns a page title.
+  */
+ public function getTitle() {
+   // Get current language code
+   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+   switch($language) {
+     case 'nb':
+       $title = 'Sentinel-2 produktsammenlikning';
+       break;
+     case 'en':
+       $title = 'Sentinel-2 products comparison';
+       break;
+   }
+   return  $title;
+ }
+
 
     // define function to select only one platformuct
     //function select_image($scr_name,$year,$month,$day,$platform,$pbn,$tile,$action,$platforms,$pbn_array,$tiles_array) {

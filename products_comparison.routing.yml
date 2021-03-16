@@ -2,7 +2,7 @@ products_comparison:
   path: '/services/comparison'
   defaults:
     _controller: '\Drupal\products_comparison\Controller\ProductsComparisonController::render'
-    _title: 'Sentinel-2 Products Comparison'
+    _title_callback: '\Drupal\products_comparison\Controller\ProductsComparisonController::getTitle'
   requirements:
     _permission: 'access content'
 
