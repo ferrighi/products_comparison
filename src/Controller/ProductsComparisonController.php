@@ -269,6 +269,9 @@ class ProductsComparisonController extends ControllerBase {
       $query_from_request = \Drupal::request()->query->all();
       $query = \Drupal\Component\Utility\UrlHelper::filterQueryParameters($query_from_request);
       $cloud_coverage = $query['cloud'];
+
+      $module_config = \Drupal::config('products_comparison.configuration');
+      $rows = $module_config->get('rows');
       \Drupal::logger('comparison_module')->debug('Selected cloud coverage: ' . $cloud_coverage);
       \Drupal::logger('comparison_module')->debug('Got tilename: ' . $tile);
       $query_prd = 'id:S2*'.$tile.'*';
@@ -299,7 +302,7 @@ class ProductsComparisonController extends ControllerBase {
         $query = $connector->getSelectQuery();
         $query->setFields($fields);
         $query->setQuery($query_prd);
-        $query->setStart(0)->setRows(50);
+        $query->setStart(0)->setRows($rows);
 
         $query->addSort('last_metadata_update_datetime', $query::SORT_DESC);
         if( $cloud_coverage !== 'None') {

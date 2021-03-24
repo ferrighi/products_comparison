@@ -56,11 +56,17 @@ class ProductsComparisonConfigurationForm extends ConfigFormBase {
       '#title' => 'Enter default longitude center map point (EPSG:4326)',
       '#default_value' => $config->get('lon'),
     ];
-    
+
     $form['lat'] = [
       '#type' => 'number',
       '#title' => 'Enter default latitude center map point (EPSG:4326)',
       '#default_value' => $config->get('lat'),
+    ];
+
+    $form['rows'] = [
+      '#type' => 'number',
+      '#title' => 'Enter the number of date rows to return in list',
+      '#default_value' => $config->get('rows'),
     ];
 
 
@@ -99,6 +105,7 @@ class ProductsComparisonConfigurationForm extends ConfigFormBase {
       ->set('defzoom', $values['defzoom'])
       ->set('lat', $values['lat'])
       ->set('lon', $values['lon'])
+      ->set('rows', $values['rows'])
       ->save();
     parent::submitForm($form, $form_state);
   }
