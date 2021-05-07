@@ -271,9 +271,10 @@ class ProductsComparisonController extends ControllerBase {
       $cloud_coverage = $query['cloud'];
 
       $module_config = \Drupal::config('products_comparison.configuration');
-      $rows = $module_config->get('rows');
+      $rows = (int) $module_config->get('rows');
       \Drupal::logger('comparison_module')->debug('Selected cloud coverage: ' . $cloud_coverage);
       \Drupal::logger('comparison_module')->debug('Got tilename: ' . $tile);
+        \Drupal::logger('comparison_module')->debug('Got rows: ' . $rows);
       $query_prd = 'id:S2*'.$tile.'*';
 
         //Define the fields to be added to the resultSet

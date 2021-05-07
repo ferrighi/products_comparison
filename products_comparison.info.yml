@@ -3,5 +3,5 @@ description: 'Tool for comparing two Sentinel-2 products'
 type: module
 core: 8.x
 version: 1.x
-package: METNO
+package: METSIS
 dependencies:
