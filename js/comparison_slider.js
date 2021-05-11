@@ -89,7 +89,7 @@ console.log("Start of products_comparison map script:");
           var kmlTilelayer = new ol.layer.Vector({
             title: 'Tiles',
             source: new ol.source.Vector({
-              url: '/sites/'+ site_name + '/files/stripped_tiles_np.kml',
+              url: '/sites/'+ site_name + '/files/kml/stripped_tiles_np.kml',
               format: new ol.format.KML({
                 extractStyles: false,
                 extractAttributes: true
