@@ -35,8 +35,8 @@ class ProductsComparisonController extends ControllerBase {
         //$config->get('name');
 
         # define source of files and pages where to show the block
-        $datadir  = "http://nbswms.met.no/thredds/wms_jpeg/NBS";
-        $datadir2  = "http://nbswms.met.no/thredds/wms/NBS";
+        $datadir  = "https://nbswms.met.no/thredds/wms_jpeg/NBS";
+        $datadir2  = "https://nbswms.met.no/thredds/wms/NBS";
 
         $module_config = \Drupal::config('products_comparison.configuration');
         $helptext = Markup::create($module_config->get('helptext')['value']);
@@ -281,7 +281,7 @@ class ProductsComparisonController extends ControllerBase {
         $fields[] = 'id';
         $fields[] = 'temporal_extent_start_date';
         $fields[] = 'temporal_extent_end_date';
-        //$fields[] = 'data_access_url_opendap';
+        $fields[] = 'title';
         //$fields[] = 'data_access_url_http';
         //$fields[] = 'data_access_url_odata';
         $fields[] = 'data_access_url_ogc_wms';
@@ -313,16 +313,16 @@ class ProductsComparisonController extends ControllerBase {
         \Drupal::logger('comparison_module')->debug("Executing query");
         $result = $connector->execute($query);
         //\Drupal::logger('comparison_module')->debug("Query time: " . $result->getQueryTime() . " num found: " . $result->getNumFound());
-        \Drupal::logger('comparison_module')->debug("Finished executing query");
+        \Drupal::logger('comparison_module')->debug("Finished executing query, got: " .  $result->getNumFound());
       $count = 1;
       foreach ($result as $doc) {
          $fields = $doc->getFields();
-         if (preg_match("/OPER/", $fields['id'])){
-            $time_string = explode('_',$fields['id'],12)[7];
+         if (preg_match("/OPER/", $fields['title'])){
+            $time_string = explode('_',$fields['title'],12)[7];
          }else{
-            $time_string = explode('_',$fields['id'],7)[6];
+            $time_string = explode('_',$fields['title'],7)[6];
          }
-         $id = $fields['id'];
+         $id = $fields['title'];
          $address = $fields['data_access_url_ogc_wms'][0];
          $start = $fields['temporal_extent_start_date'];
          $end = $fields['temporal_extent_end_date'];
