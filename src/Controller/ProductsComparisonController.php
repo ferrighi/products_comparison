@@ -317,12 +317,12 @@ class ProductsComparisonController extends ControllerBase {
       $count = 1;
       foreach ($result as $doc) {
          $fields = $doc->getFields();
-         if (preg_match("/OPER/", $fields['title'])){
-            $time_string = explode('_',$fields['title'],12)[7];
+         if (preg_match("/OPER/", $fields['title'][0])){
+            $time_string = explode('_',$fields['title'][0],12)[7];
          }else{
-            $time_string = explode('_',$fields['title'],7)[6];
+            $time_string = explode('_',$fields['title'][0],7)[6];
          }
-         $id = $fields['title'];
+         $id = $fields['title'][0];
          $address = $fields['data_access_url_ogc_wms'][0];
          $start = $fields['temporal_extent_start_date'];
          $end = $fields['temporal_extent_end_date'];
