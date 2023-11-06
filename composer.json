@@ -1,0 +1,10 @@
+{
+    "name": "metno/products_comparison",
+    "type": "drupal-custom-module",
+    "description": "Drupal tool for comparsion of two Sentinel-2 products on a OpenLayers map.",
+    "license": "GPL-3.0-or-later",
+    "scripts": {
+        "sniff": "phpcs --colors -n --standard=Drupal --extensions=php,module,yml src",
+        "snifferfix": "phpcbf --colors -n --standard=Drupal --extensions=php,module,yml src"
+    }
+}

@@ -4,8 +4,11 @@ console.log("Start of products_comparison map script:");
     console.log("Attaching products_comparison script to drupal behaviours:");
     /** Attach the metsis map to drupal behaviours function */
     Drupal.behaviors.productsComparison = {
-      attach: function(context, drupalSettings) {
-        $('#comparisonID', context).each(function() {
+      attach: function(context) {
+        const mapEl = $(once('#map', '[data-product-comparison]', context));
+        mapEl.each(function () {
+
+          //$('#comparisonID', context).each(function() {
           //$('#map-res', context).once('metsisSearchBlock').each(function() {
           /** Start reading drupalSettings sent from the mapblock build */
           console.log('Initializing products_comparison Map...');

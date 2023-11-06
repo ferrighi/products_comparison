@@ -1,6 +1,5 @@
 <?php
 
-
 use Drupal\Core\Routing\RouteMatchInterface;
 
 function products_comparison_help($route_name, RouteMatchInterface $route_match)
@@ -21,12 +20,6 @@ function products_comparison_help($route_name, RouteMatchInterface $route_match)
 
 // Implements hook_theme()
 function products_comparison_theme( $existing, $type, $theme, $path ){
-  //dpm($existing);
-  //\Drupal::logger('comparison_module')->debug(implode(' : ', implode(', ' , $existing)));
-  //\Drupal::logger('comparison_module')->debug($type);
-  //\Drupal::logger('comparison_module')->debug($theme);
-  //\Drupal::logger('comparison_module')->debug($path);
-
   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
   switch($language) {
     case 'nb':
