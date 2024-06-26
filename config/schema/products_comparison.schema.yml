@@ -9,8 +9,8 @@ products_comparison.configuration:
       type: string
       label: 'Language code'
     lat:
-    type: int
-    label: 'Initial centre latitude for map'
+      type: int
+      label: 'Initial centre latitude for map'
     lon:
       type: int
       label: 'Initial centre longitude for map'
