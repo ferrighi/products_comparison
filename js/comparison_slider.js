@@ -33,15 +33,15 @@ console.log("Start of products_comparison map script:");
           proj32661.setExtent(ex32661);
           ol.proj.addProjection(proj32661);
 
-          var ext = ex32661;
-          var prj = proj32661;
+          let ext = ex32661;
+          let prj = proj32661;
 
-          var selectedId1 = 'None';
-          var selectedId2 = 'None';
+          let selectedId1 = 'None';
+          let selectedId2 = 'None';
 
           //Intialize with no selected tile.
           $('#tileSelect').val('None');
-          var selectedTile =  $('#tileSelect').val();
+          let selectedTile =  $('#tileSelect').val();
           console.log("Initial selected tile: " + selectedTile);
 
           //Initialize default layers
@@ -50,15 +50,15 @@ console.log("Start of products_comparison map script:");
 
 
           //Define default layers for products.
-          var prod1Layer = $('#layer1Id').val();
-          var prod2Layer = $('#layer2Id').val();
+          let prod1Layer = $('#layer1Id').val();
+          let prod2Layer = $('#layer2Id').val();
           console.log("Initial layer 1 name: " + prod1Layer);
           console.log("Initial layer 2 name: " + prod2Layer);
 
 
           //Set the cloud coverage:
            $('#cloudSelect').val('None');
-          var cloudCoverage = $('#cloudSelect').val();
+          let cloudCoverage = $('#cloudSelect').val();
           console.log("Selected cloude coverage: " + cloudCoverage);
 
 
@@ -157,9 +157,10 @@ console.log("Start of products_comparison map script:");
           });
 
           var highlight;
+          var feature;
           var displayFeatureInfo = function (pixel) {
             kmlTilelayer.getFeatures(pixel).then(function (features) {
-              var feature = features.length ? features[0] : undefined;
+              feature = features.length ? features[0] : undefined;
 
               if (feature !== highlight) {
                 if (highlight) {
@@ -172,12 +173,12 @@ console.log("Start of products_comparison map script:");
               }
             });
           };
-
+          var pixel;
           map.on('pointermove', function (evt) {
             if (evt.dragging) {
               return;
             }
-            var pixel = map.getEventPixel(evt.originalEvent);
+            pixel = map.getEventPixel(evt.originalEvent);
               displayFeatureInfo(pixel);
           });
 
@@ -245,7 +246,7 @@ console.log("Start of products_comparison map script:");
                     }
                   });
           */
-          var productData = null;
+          let productData = null;
 
           function getProductData(tile) {
             //let loader = '<img src="/core/misc/throbber-active.gif"/>';
@@ -290,7 +291,7 @@ console.log("Start of products_comparison map script:");
             map.getLayers().getArray()[1].getSource().forEachFeature(function(feature) {
               if (selectedTile.slice(1, 6) == feature.get("name")) {
                 feature.setStyle(styleRed);
-                var ext = feature.getGeometry().getExtent();
+                ext = feature.getGeometry().getExtent();
                 map.getView().fit(ext, map.getSize());
               } else {
                 feature.setStyle(undefined);
@@ -330,7 +331,7 @@ console.log("Start of products_comparison map script:");
           });
 */
               //Red color when selecting a tile.
-              var tileClick = 'None';
+              let tileClick = 'None';
               map.on('click', function(evt) {
                 tileClick = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
                 feature.setStyle(styleRed);
@@ -372,7 +373,7 @@ console.log("Start of products_comparison map script:");
       //});
 
         $('#productOne').on('change', function() {
-          var id = $(this).val();
+          let id = $(this).val();
           console.log('Chosen prod 1 id: ' + id);
           selectedId1 = id;
           productData.forEach(function(e, i) {
@@ -406,7 +407,7 @@ console.log("Start of products_comparison map script:");
         });
 
         $('#productTwo').on('change', function() {
-          var id = $(this).val();
+          let id = $(this).val();
           console.log('Chosen prod 2 id: ' + id);
           selectedId2 = id
           productData.forEach(function(e, i) {
