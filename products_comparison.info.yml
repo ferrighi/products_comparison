@@ -2,7 +2,7 @@ name: 'S2 Products Comparison'
 description: 'Tool for comparing two Sentinel-2 products'
 type: module
 core_version_requirement: ^8.8 || ^9 || ^10 || ^11
-version: 2.1.0
+version: 2.2.0
 package: METSIS
 configure: products_comparison.admin_config_form
 dependencies:
