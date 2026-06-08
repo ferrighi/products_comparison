@@ -43,7 +43,7 @@ class ProductsComparisonController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container): self{
-    return self(
+    return new self(
       $container->get('request_stack'),
       $container->get('router.route_provider')
     );
