@@ -1,0 +1,23 @@
+{
+  "_preact-DcfIFuch.js": {
+    "file": "assets/preact-DcfIFuch.js",
+    "name": "preact"
+  },
+  "_proj4-DSgk6v-w.js": {
+    "file": "assets/proj4-DSgk6v-w.js",
+    "name": "proj4"
+  },
+  "src/main.js": {
+    "file": "assets/productComparison-OnYs6bLR.js",
+    "name": "productComparison",
+    "src": "src/main.js",
+    "isEntry": true,
+    "imports": [
+      "_preact-DcfIFuch.js",
+      "_proj4-DSgk6v-w.js"
+    ],
+    "css": [
+      "assets/productComparison-CUS-iKwW.css"
+    ]
+  }
+}
