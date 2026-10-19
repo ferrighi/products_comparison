@@ -1,2 +1,5 @@
 node_modules
-dist
+dist/*
+!dist/.vite/
+!dist/assets/
+dist/assets/*.map

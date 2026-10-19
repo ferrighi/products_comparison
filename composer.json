@@ -24,6 +24,7 @@
     },
     "require-dev": {
         "metno/mmd": "^4",
+        "drupal/solo": "^1",
         "drush/drush": "^13.0"
     }
 }

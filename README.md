@@ -22,6 +22,21 @@ required `metsis_drupal` module.
 After updating routing or menu link definitions, rebuild Drupal's caches with
 `drush cr` (or `ddev drush cr` in the development environment).
 
+## Form styling
+
+The Preact controls use module-scoped styles in
+[`js/comparison-app/src/style.css`](js/comparison-app/src/style.css), including
+dropdowns, Plot/Hide buttons, disabled states, and keyboard focus indicators.
+The controls use a light surface with explicit text colors so they remain
+readable independently of the site's theme. Product cards stack when their
+container is narrow, including when placed beside a theme sidebar.
+
+Rebuild the production assets with `npm run build` from `js/comparison-app`
+after changing the stylesheet, then rebuild Drupal's caches. Verify the controls
+at desktop and mobile widths, including keyboard navigation and enabled/disabled
+Plot buttons. Include the generated JavaScript, CSS, and Vite manifest in the
+change; source maps are ignored.
+
 ## Testing
 
 Inside the web container, run the custom-module suite without a `ddev` prefix:
