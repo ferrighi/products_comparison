@@ -8,7 +8,7 @@
     "name": "proj4"
   },
   "src/main.js": {
-    "file": "assets/productComparison-BKc95Jgr.js",
+    "file": "assets/productComparison-CxCZqgic.js",
     "name": "productComparison",
     "src": "src/main.js",
     "isEntry": true,
@@ -17,7 +17,7 @@
       "_proj4-DSgk6v-w.js"
     ],
     "css": [
-      "assets/productComparison-CllHo5YQ.css"
+      "assets/productComparison-BQ0poqFm.css"
     ]
   }
 }

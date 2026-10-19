@@ -263,6 +263,7 @@ tr {
 }
 
 .comparison-mouse-position {
+  position: absolute;
   top: auto !important;
   right: auto !important;
   bottom: .5rem !important;
