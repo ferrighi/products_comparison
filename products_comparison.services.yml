@@ -1,0 +1,6 @@
+services:
+  products_comparison.product_search:
+    class: Drupal\products_comparison\Service\ProductSearchService
+    arguments:
+      - '@metsis_drupal.solr_query_factory'
+      - '@metsis_drupal.solr_connector_provider'

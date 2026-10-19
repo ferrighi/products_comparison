@@ -105,49 +105,18 @@
 
   <div id="comparisonID" {{ content_attributes.addClass('w3-container node__content block-mosaic') }}>
 <div id="throbber"></div>
-  <table style="width:80%; margin-right:auto; margin-left:auto; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"><tr><th style="text-align: center; color: #222222">Tile</th><th style="text-align: center; color: #222222">Cloud coverage</th><th style="text-align: center; color: #222222">Date - Time</th><th style="text-align: center; color: #222222">Composites</th></tr><tr>
-<th rowspan="2"><select class="drop-selection" id="tileSelect" name="tile">
-<option value="None" selected="selected">None</option>
- {% for ind, tile in tiles %}
- <option value={{ tile }}>{{ tile }}</option>
- {% endfor %}
-</select>
+  <div class="comparison-app-shell" data-product-controls
+    data-tiles="{{ tiles|json_encode|e('html_attr') }}"
+    aria-label="Product comparison controls">
+    {# Preact mounts the responsive controls here. #}
+  </div>
 
-<th rowspan="2"><select class="drop-selection" id="cloudSelect" name="cloud">
-<option value="None" selected="selected">Cloud coverage %</option>
- <option value=0.1 ><10%</option>
- <option value=0.2 ><20%</option>
- <option value=0.3 ><30%</option>
- <option value=0.4 ><40%</option>
- <option value=0.5 ><50%</option>
- <option value=0.6 ><60%</option>
- <option value=0.7 ><70%</option>
- <option value=0.8 ><80%</option>
- <option value=0.9 ><90%</option>
-</select>
-</th><th><span style="display:inline-block; width: 1.5em;"></span><select class="drop-selection" id="productOne" name="pr1">
-<option value=None selected="selected">YYYY/MM/DD - THHMMSS</option>
-</select>
-</th><th><select class="drop-selection" id="layer1Id" name="layer1">
-<option value=true_color_vegetation selected="selected">True Color Vegetation</option>
-<option value=false_color_vegetation>False Color Vegetation</option>
-<option value=false_color_glacier>False Color Glacier</option>
-</select>
-</th></tr><tr><th><span style="display:inline-block; width: 1.5em;"></span><select class="drop-selection" id="productTwo" name="pr2">
-<option value=None selected="selected">YYYY/MM/DD - THHMMSS</option>
-</select>
-</th><th><select class="drop-selection" id="layer2Id" name="layer2">
-<option  value=true_color_vegetation selected="selected">True Color Vegetation</option>
-<option value=false_color_vegetation>False Color Vegetation</option>
-<option value=false_color_glacier>False Color Glacier</option>
-</select>
-</th></tr><tr><td  style="text-align: center; font-size:15px" colspan="3"><span id="compInfo"></span></table>
-
-      <div data-product-comparison id="map" class="map" >
-      <div id="slider"><span><strong>Product One</strong></span><input id="swipe" type="range" style="width: 80%; margin-bottom:10px; margin: 0px"><span><strong>Product Two</strong></span></div>
-      </div>
-      <br>
+    <div class="comparison-map map" data-product-comparison id="map">
+      <div id="slider"><span><strong>Product One</strong></span><input id="swipe" type="range" aria-label="Compare products" /><span><strong>Product Two</strong></span></div>
+    </div>
+    <div class="comparison-help">
       {{ helptext }}
+    </div>
 </div>
 {# </article> #}
 </div>

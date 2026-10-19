@@ -8,24 +8,34 @@ products_comparison:
 
 products_comparison.date:
   path: '/services/comparison/date/{tile}'
+  methods: [GET]
   defaults:
     _controller: '\Drupal\products_comparison\Controller\ProductsComparisonController::getProductTime'
     _title: 'Products ajax callback'
   options:
+    _htmx_route: true
     query:
       cloud: "None"
   requirements:
     _permission: 'access content'
+    tile: '^T\d{2}[A-Z]{3}$'
 
-metsis.services:
-  path: '#'
+products_comparison.products:
+  path: '/services/comparison/products/{tile}'
+  methods: [GET]
   defaults:
-    _title: 'Services'
+    _controller: '\Drupal\products_comparison\Controller\ProductsComparisonController::getProductTime'
+    _title: 'Products comparison options'
+  options:
+    _htmx_route: true
+    query:
+      cloud: "None"
   requirements:
     _permission: 'access content'
+    tile: '^T\d{2}[A-Z]{3}$'
 
 products_comparison.admin_config_form:
-  path: '/admin/config/metsis/products_comparison'
+  path: '/admin/config/metno/products_comparison'
   defaults:
     _form: '\Drupal\products_comparison\Form\ProductsComparisonConfigurationForm'
     _title: 'Sentinel-2 products comparison configuration'
@@ -33,21 +43,3 @@ products_comparison.admin_config_form:
     _permission: 'administer site configuration'
   options:
     _admin_route: TRUE
-
-system.admin_config_metno:
-  path: '/admin/config/metno'
-  defaults:
-    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
-    _title: 'METNO'
-    description: 'METNO Specific configuraton'
-  requirements:
-    _permission: 'administer site configuration'
-
-system.admin_config_metsis:
-  path: '/admin/config/metsis'
-  defaults:
-    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
-    _title: 'METSIS'
-    description: 'METSIS Specific configuraton'
-  requirements:
-    _permission: 'administer site configuration'

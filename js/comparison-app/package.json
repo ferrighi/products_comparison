@@ -1,0 +1,19 @@
+{
+  "name": "comparison-app",
+  "version": "1.8.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "ol": "latest",
+    "preact": "^10.29.8",
+    "proj4": "^2.22.0"
+  }
+}

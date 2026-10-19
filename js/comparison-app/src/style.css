@@ -1,0 +1,204 @@
+.comparison-app-shell,
+.comparison-map,
+.comparison-help {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.comparison-app-shell {
+  margin-bottom: 1rem;
+}
+
+.comparison-map {
+  position: relative;
+  clear: both;
+  overflow: hidden;
+}
+
+.comparison-help {
+  clear: both;
+  margin: 1rem auto 0;
+  overflow-wrap: anywhere;
+}
+
+.comparison-help img,
+.comparison-help table,
+.comparison-help pre {
+  max-width: 100%;
+}
+#info {
+  height: 1px;
+  width: 1px;
+  z-index: 100;
+  left: 200px;
+  top: 100px;
+}
+
+.map {
+  height: 600px;
+  width: 100%;
+  margin: auto;
+  border: 2px solid #c8c7c7;
+  box-sizing: border-box;
+}
+
+.drop-selection {
+  height: 30px !important;
+  display: inline !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.comparison-controls {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+  box-sizing: border-box;
+}
+
+.shared-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(10rem, 1fr));
+  gap: .75rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid #c8c7c7;
+}
+
+.product-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(10rem, 1fr));
+  gap: .75rem;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .75rem;
+  border: 1px solid #c8c7c7;
+  background: #fff;
+}
+
+.product-card h3 {
+  margin: 0;
+  color: #222;
+  font-size: 1rem;
+}
+
+.product-card .plot-button {
+  align-self: flex-start;
+}
+
+.comparison-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  color: #222;
+  font-weight: 600;
+}
+
+.comparison-info,
+.comparison-status,
+.comparison-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: .9rem;
+}
+
+.comparison-error { color: #a00; }
+
+@media (max-width: 800px) {
+  .product-controls { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 500px) {
+  .shared-controls { grid-template-columns: 1fr; }
+}
+
+.table,
+th,
+td,
+tr {
+  border: 1px solid #c8c7c7;
+}
+
+#swipe::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #81b6da;
+  border-color: #000;
+  border-width: 1px;
+  cursor: pointer;
+}
+
+#slider {
+  position: absolute;
+  z-index: 1;
+  top: .75rem;
+  left: 15%;
+  right: 15%;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .5rem .75rem;
+  color: #222;
+  background: rgb(255 255 255 / 85%);
+  box-sizing: border-box;
+}
+
+#swipe {
+  flex: 1;
+  min-width: 5rem;
+}
+
+.comparison-mouse-position {
+  top: auto !important;
+  right: auto !important;
+  bottom: .5rem !important;
+  left: .5rem !important;
+  z-index: 1000;
+  padding: .2rem .4rem;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0 0 2px #000, 0 0 4px #000;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.comparison-map .ol-control {
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.comparison-map .ol-full-screen {
+  top: .5em !important;
+  right: .5em !important;
+}
+
+.comparison-map .ol-full-screen button {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  color: #333;
+  background: rgb(255 255 255 / 90%);
+  border: 1px solid rgb(0 0 0 / 35%);
+  border-radius: 2px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+@media (max-width: 500px) {
+  #slider {
+    left: 10%;
+    right: 10%;
+    gap: .35rem;
+    padding-inline: .5rem;
+  }
+}

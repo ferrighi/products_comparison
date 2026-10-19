@@ -1,0 +1,6 @@
+.env*
+web/
+vendor/
+recipes/
+/.editorconfig
+/.gitattributes

@@ -34,7 +34,6 @@ function products_comparison_theme( $existing, $type, $theme, $path ){
               ],
         ],
     ];
-      break;
     case 'en':
     return [
         'products_comparison-template' => [
@@ -47,7 +46,6 @@ function products_comparison_theme( $existing, $type, $theme, $path ){
               ],
         ],
     ];
-      break;
     }
 
 

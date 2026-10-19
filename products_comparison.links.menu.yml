@@ -7,7 +7,7 @@ products_comparison:
 
 metsis.services:
   title: 'Services'
-  route_name: metsis.services
+  route_name: '<nolink>'
   description: "METSIS Services"
   menu_name: main
 
@@ -15,19 +15,5 @@ products_comparison.admin_config_form:
   title: 'Products comparison configuration'
   description: 'Configure products comparison'
   route_name: products_comparison.admin_config_form
-  parent: metsis.group.admin
+  parent: metsis_drupal.admin_metno
   weight: 99
-
-metno.group.admin:
-  title: 'METNO'
-  route_name: system.admin_config_metno
-  parent: system.admin_config
-  description: 'METNO Configuration'
-  weight: -999
-
-metsis.group.admin:
-  title: 'METSIS'
-  route_name: system.admin_config_metsis
-  parent: system.admin_config
-  description: 'METSIS Configuration'
-  weight: -999
